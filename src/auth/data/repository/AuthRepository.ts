@@ -40,7 +40,6 @@ export default class AuthRepository implements IAuthRepository {
             user.username,
             user.email,
             '',
-            user.kitchenId
         )
     }
 }
