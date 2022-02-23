@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // Routes
-app.use('/auth', CompositionRoot.authRouter())
+app.use('/api/auth', CompositionRoot.authRouter())
 
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}`))

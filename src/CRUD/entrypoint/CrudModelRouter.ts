@@ -2,7 +2,7 @@ import * as express from 'express'
 import TokenValidator from '../../auth/helpers/TokenValidator'
 import { validate } from '../../auth/helpers/Validators'
 import MongoCrudModel from '../data/model/MongoCrudModel'
-import ICrudModelRepository from '../data/repository/I_Repository'
+import ICrudModelRepository from '../data/repository/ICrudModelRepository'
 import CrudModelController from './CrudModelController'
 
 

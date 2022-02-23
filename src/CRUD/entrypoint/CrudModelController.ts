@@ -1,17 +1,16 @@
 import express from "express";
 import { model } from "mongoose";
 import MongoCrudModel from "../data/model/MongoCrudModel";
-import ICrudModelRepository from "../data/repository/I_Repository";
+import ICrudModelRepository from "../data/repository/ICrudModelRepository";
+
 import CrudModel from "../domain/CrudModel";
 
 export default class CrudModelController {
     constructor(private readonly repository: ICrudModelRepository, private readonly crudModel: MongoCrudModel) { }
 
     public async status(req: express.Request, res: express.Response) {
-        return res.status(200).json({ message: 'Shopping List endpoint is Running 💅' })
+        return res.status(200).json({ message: ' This Endpoint is Running 💅' })
     }
-
-
 
     public async createCrudModel(req: express.Request, res: express.Response) {
         try {

@@ -1,9 +1,10 @@
 import * as mongoose from 'mongoose'
-export default interface MongoCrudModel {
-    getModelName();
-    getBodyParameters();
-    createModel(reqBody);
-    getModelSchema();
+
+export interface UserModel extends mongoose.Document {
+    id: string
+    username: string
+    email: string
+    password?: string
 }
 
 export const UserSchema = new mongoose.Schema({
