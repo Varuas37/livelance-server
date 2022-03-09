@@ -1,14 +1,14 @@
 import * as mongoose from 'mongoose'
 
-export interface UserModel extends mongoose.Document {
+export interface JobModel extends mongoose.Document {
     id: string
-    username: string
-    email: string
-    password?: string
+    title: string
+    description: string
 }
 
-export const UserSchema = new mongoose.Schema({
-    username: { type: String, required: true },
-    email: { type: String, required: true },
-    password: String,
-})
+export const JobSchema = new mongoose.Schema(
+    {
+        title: { type: String, required: true },
+        description: { type: String, required: true },
+    }
+)
