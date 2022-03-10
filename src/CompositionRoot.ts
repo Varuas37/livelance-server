@@ -8,6 +8,10 @@ import AuthRouter from './auth/entrypoint/AuthRouter'
 import TokenValidator from './auth/helpers/TokenValidator'
 
 import { JobModel } from './job/data/models/JobModel'
+import JobRepository from './job/data/repository/JobRepository'
+import JobRouter from './job/entrypoint/JobRouter'
+import ProfileRepository from './profile/data/repository/ProfileRepository'
+import ProfileRouter from './profile/entrypoint/ProfileRouter'
 
 export default class CompositionRoot {
     private static client: mongoose.Mongoose
@@ -42,6 +46,23 @@ export default class CompositionRoot {
         )
     }
 
+    public static profileRouter() {
+        const repository = new ProfileRepository(this.client)
+        const tokenService = new JwtTokenService(process.env.PRIVATE_KEY as string)
+        const tokenStore = new RedisTokenStore(this.redisClient)
+        const tokenValidator = new TokenValidator(tokenService, tokenStore)
+
+
+        return ProfileRouter.configure(repository, tokenValidator);
+    }
+
+    public static jobRouter() {
+        const repository = new JobRepository(this.client)
+        const tokenService = new JwtTokenService(process.env.PRIVATE_KEY as string)
+        const tokenStore = new RedisTokenStore(this.redisClient)
+        const tokenValidator = new TokenValidator(tokenService, tokenStore)
+        return JobRouter.configure(repository, tokenValidator)
+    }
 
 
 

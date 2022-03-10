@@ -1,5 +1,5 @@
 import express from 'express';
-import IJobRepository from '../data/repository/IJobRepository';
+import IJobRepository from '../domain/IJobRepository';
 
 
 export default class JobController {

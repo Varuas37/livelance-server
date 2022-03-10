@@ -14,6 +14,8 @@ app.use(express.urlencoded({ extended: true }))
 
 // Routes
 app.use('/api/auth', CompositionRoot.authRouter())
+app.use('/api/jobs', CompositionRoot.jobRouter())
+app.use('/api/profile', CompositionRoot.profileRouter())
 
 
 
