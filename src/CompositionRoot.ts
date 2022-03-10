@@ -7,6 +7,8 @@ import RedisTokenStore from './auth/data/services/RedisTokenStore'
 import AuthRouter from './auth/entrypoint/AuthRouter'
 import TokenValidator from './auth/helpers/TokenValidator'
 
+import { JobModel } from './job/data/models/JobModel'
+
 export default class CompositionRoot {
     private static client: mongoose.Mongoose
     private static redisClient: redis.RedisClient
@@ -39,6 +41,8 @@ export default class CompositionRoot {
             tokenValidator,
         )
     }
+
+
 
 
 

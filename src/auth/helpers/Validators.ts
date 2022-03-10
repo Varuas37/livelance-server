@@ -3,11 +3,11 @@ import { body, validationResult } from 'express-validator'
 
 export const signupValidationRules = () => {
     return [
-        body('username', 'Name is required').notEmpty(),
+
         body('email', 'Invalid email').notEmpty().isEmail().normalizeEmail(),
 
         body('password', 'Password is required (min 5 characters)')
-            .if(body('auth_type').equals('email'))
+            // .if(body('auth_type').equals('email'))
             .notEmpty()
             .isLength({ min: 5 }),
     ]
@@ -15,12 +15,12 @@ export const signupValidationRules = () => {
 
 export const signinValidationRules = () => {
     return [
-        body('username', 'Username is required')
-            .if(body('auth_type').not().equals('email'))
-            .notEmpty(),
+        // body('username', 'Username is required')
+        //     .if(body('auth_type').not().equals('email'))
+        //     .notEmpty(),
         body('email', 'Invalid email').not().isEmpty().isEmail().normalizeEmail(),
         body('password', 'Password is required (min 5 characters)')
-            .if(body('auth_type').equals('email'))
+            // .if(body('auth_type').equals('email'))
             .notEmpty()
             .isLength({ min: 5 }),
     ]

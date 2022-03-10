@@ -12,7 +12,6 @@ export default class AuthRepository implements IAuthRepository {
         if (!user) return Promise.reject('User not found')
         return new User(
             user.id,
-            user.username,
             user.email,
             user.password ?? '',
         );
@@ -39,7 +38,6 @@ export default class AuthRepository implements IAuthRepository {
         if (user === null) return Promise.reject('User not found')
         return new User(
             user.id,
-            user.username,
             user.email,
             '',
         )

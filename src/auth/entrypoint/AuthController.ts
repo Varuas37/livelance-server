@@ -51,7 +51,6 @@ export default class AuthController {
             return this.signUpUseCase
                 .execute(username, email, password)
                 .then((id: string) => {
-
                     res.status(200).json({ auth_token: this.tokenService.encode(id) })
                 }
                 )
