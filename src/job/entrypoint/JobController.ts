@@ -2,8 +2,8 @@ import express from 'express';
 import IJobRepository from '../domain/IJobRepository';
 import { Job } from '../domain/Job';
 
-
 export default class JobController {
+
     constructor(private readonly repository: IJobRepository) { };
 
     public async status(req: express.Request, res: express.Response) {

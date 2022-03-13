@@ -18,17 +18,20 @@ export default class AuthRepository implements IAuthRepository {
     }
 
     public async add(
-        username: string,
         email: string,
         passwordHash?: string
     ): Promise<string> {
+
         const userModel = this.client.model<UserModel>('User', UserSchema)
+
         const savedUser = new userModel({
-            username: username,
             email: email.toLowerCase(),
         })
+
         if (passwordHash) savedUser.password = passwordHash
+        console.log('👀' + savedUser);
         await savedUser.save()
+
         return savedUser.id
     }
 

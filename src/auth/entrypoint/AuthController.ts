@@ -33,9 +33,9 @@ export default class AuthController {
 
     public async signin(req: express.Request, res: express.Response) {
         try {
-            const { username, email, password } = req.body
+            const { email, password } = req.body
             return this.signInUseCase
-                .execute(username, email, password)
+                .execute(email, password)
                 .then((id: string) =>
                     res.status(200).json({ auth_token: this.tokenService.encode(id) })
                 )
@@ -47,9 +47,9 @@ export default class AuthController {
 
     public async signup(req: express.Request, res: express.Response) {
         try {
-            const { username, email, password } = req.body
+            const { email, password } = req.body
             return this.signUpUseCase
-                .execute(username, email, password)
+                .execute(email, password)
                 .then((id: string) => {
                     res.status(200).json({ auth_token: this.tokenService.encode(id) })
                 }

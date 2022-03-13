@@ -7,7 +7,7 @@ export default class SignUpUseCase {
         private passwordService: IPasswordService
     ) { }
     public async execute(
-        username: string,
+
         email: string,
         password: string,
     ): Promise<string> {
@@ -20,7 +20,6 @@ export default class SignUpUseCase {
             passwordhash = undefined
         }
         const userId = await this.authRespository.add(
-            username,
             email,
             passwordhash
         )

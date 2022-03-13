@@ -21,7 +21,6 @@ export default class TokenValidator {
         const decoded = this.tokenService.decode(authHeader.substring(7))
         const userID = Object.values(decoded)[0]
         req.user = userID
-        console.log(req.user)
         next()
     }
 }
