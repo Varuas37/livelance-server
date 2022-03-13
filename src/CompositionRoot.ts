@@ -51,8 +51,6 @@ export default class CompositionRoot {
         const tokenService = new JwtTokenService(process.env.PRIVATE_KEY as string)
         const tokenStore = new RedisTokenStore(this.redisClient)
         const tokenValidator = new TokenValidator(tokenService, tokenStore)
-
-
         return ProfileRouter.configure(repository, tokenValidator);
     }
 

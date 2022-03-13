@@ -1,7 +1,8 @@
 import * as mongoose from 'mongoose'
 
-export interface JobModel extends mongoose.Document {
+export interface JobDocument extends mongoose.Document {
     id: string
+    postedOn: string,
     jobTitle: string
     jobDescription: string
     category: string
@@ -10,11 +11,12 @@ export interface JobModel extends mongoose.Document {
     postedBy: string
     duration: number
     rate: number
+    rateDuration: string
     location: string
     zipcode: number
 }
-
-export const JobSchema = new mongoose.Schema(
+export interface JobModel extends mongoose.Model<JobDocument> { }
+const JobSchema = new mongoose.Schema(
     {
         jobTitle: { type: String, required: true },
         jobDescription: { type: String, required: true },
@@ -27,7 +29,10 @@ export const JobSchema = new mongoose.Schema(
         },
         duration: { type: String, required: true },
         rate: { type: Number, required: true },
+        rateDuration: { type: String, required: true, default: "hour" },
         location: { type: String, required: true },
         zipcode: { type: Number, required: true },
     }
 )
+export { JobSchema }
+

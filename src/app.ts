@@ -13,9 +13,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // Routes
-app.use('/api/auth', CompositionRoot.authRouter())
-app.use('/api/jobs', CompositionRoot.jobRouter())
-app.use('/api/profile', CompositionRoot.profileRouter())
+app.use('/auth', CompositionRoot.authRouter())
+app.use('/jobs', CompositionRoot.jobRouter())
+app.use('/profile', CompositionRoot.profileRouter())
 
 
 
