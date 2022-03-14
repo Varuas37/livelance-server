@@ -10,6 +10,8 @@ import TokenValidator from './auth/helpers/TokenValidator'
 import { JobModel } from './job/data/models/JobModel'
 import JobRepository from './job/data/repository/JobRepository'
 import JobRouter from './job/entrypoint/JobRouter'
+import MessageRepository from './messages/data/repository/MessageRepository'
+import MessageRouter from './messages/entrypoint/MessageRouter'
 import ProfileRepository from './profile/data/repository/ProfileRepository'
 import ProfileRouter from './profile/entrypoint/ProfileRouter'
 
@@ -62,6 +64,13 @@ export default class CompositionRoot {
         return JobRouter.configure(repository, tokenValidator)
     }
 
+    public static messageRouter() {
+        const repository = new MessageRepository(this.client)
+        const tokenService = new JwtTokenService(process.env.PRIVATE_KEY as string)
+        const tokenStore = new RedisTokenStore(this.redisClient)
+        const tokenValidator = new TokenValidator(tokenService, tokenStore)
+        return MessageRouter.configure(repository, tokenValidator);
+    }
 
 
 
