@@ -16,14 +16,11 @@ export default class AuthRepository implements IAuthRepository {
             user.password ?? '',
         );
     }
-
     public async add(
         email: string,
         passwordHash?: string
     ): Promise<string> {
-
         const userModel = this.client.model<UserModel>('User', UserSchema)
-
         const savedUser = new userModel({
             email: email.toLowerCase(),
         })

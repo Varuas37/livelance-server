@@ -1,4 +1,5 @@
 import * as express from 'express'
+import IProfileRepository from '../../profile/domain/IProfileRepository'
 import IAuthRepository from '../domain/IAuthRepository'
 import TokenValidator from '../helpers/TokenValidator'
 import {
@@ -19,6 +20,7 @@ import AuthController from './AuthController'
 export default class AuthRouter {
     public static configure(
         authRepository: IAuthRepository,
+        userProfileRepository: IProfileRepository,
         tokenService: ITokenService,
         tokenStore: ITokenStore,
         passwordService: IPasswordService,
@@ -28,6 +30,7 @@ export default class AuthRouter {
         const router = express.Router()
         let controller = AuthRouter.composeController(
             authRepository,
+            userProfileRepository,
             tokenService,
             tokenStore,
             passwordService,
@@ -72,12 +75,13 @@ export default class AuthRouter {
 
     private static composeController(
         authRepository: IAuthRepository,
+        userProfileRepository: IProfileRepository,
         tokenService: ITokenService,
         tokenStore: ITokenStore,
         passwordService: IPasswordService
     ): AuthController {
         const signinUseCase = new SignInUseCase(authRepository, passwordService)
-        const signupUseCase = new SignUpUseCase(authRepository, passwordService)
+        const signupUseCase = new SignUpUseCase(authRepository, userProfileRepository, passwordService)
         const signoutUseCase = new SignOutUseCase(tokenStore)
         const controller = new AuthController(
             signinUseCase,

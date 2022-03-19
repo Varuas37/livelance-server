@@ -1,10 +1,21 @@
 import express from 'express';
+import IProfileRepository from '../../profile/domain/IProfileRepository';
 import IJobRepository from '../domain/IJobRepository';
 import { Job } from '../domain/Job';
+import GenerateJobFeedUseCase from '../usecases/GenerateJobFeed';
 
 export default class JobController {
+    private readonly generateJobFeedUseCase: GenerateJobFeedUseCase
+    private readonly repository: IJobRepository
 
-    constructor(private readonly repository: IJobRepository) { };
+    constructor(
+        repository: IJobRepository,
+        generateJobfeedUseCase: GenerateJobFeedUseCase
+    ) {
+
+        this.repository = repository
+        this.generateJobFeedUseCase = generateJobfeedUseCase
+    };
 
     public async status(req: express.Request, res: express.Response) {
         return res.status(200).json({ message: 'Job endpoint is running 💅' })
@@ -59,8 +70,10 @@ export default class JobController {
     public async getJobFeedForUser(req: express.Request, res: express.Response) {
         try {
             const { skills, category, subCategory } = req.body
-            return this.repository.getJobFeedForUser(skills, category, subCategory)
+            const userId = req.user
+            return this.generateJobFeedUseCase.execute(userId, category, subCategory)
                 .then((jobs) =>
+
                     res.status(200).json({
                         jobs: jobs,
                     })
@@ -71,9 +84,9 @@ export default class JobController {
         }
     }
 
-
-
 }
+
+
 
 declare module 'express-serve-static-core' {
     interface Request {

@@ -15,7 +15,6 @@ export const signinValidationRules = () => {
     return [
         body('email', 'Invalid email').not().isEmpty().isEmail().normalizeEmail(),
         body('password', 'Password is required (min 5 characters)')
-
             .notEmpty()
             .isLength({ min: 5 }),
     ]

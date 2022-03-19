@@ -31,6 +31,7 @@ export default class CompositionRoot {
 
     public static authRouter() {
         const repository = new AuthRepository(this.client)
+        const profileRepository = new ProfileRepository(this.client)
         const tokenService = new JwtTokenService(process.env.PRIVATE_KEY as string)
         const passwordService = new BcryptPasswordService()
         const tokenStore = new RedisTokenStore(this.redisClient)
@@ -39,6 +40,7 @@ export default class CompositionRoot {
 
         return AuthRouter.configure(
             repository,
+            profileRepository,
             tokenService,
             tokenStore,
             passwordService,
@@ -55,11 +57,12 @@ export default class CompositionRoot {
     }
 
     public static jobRouter() {
-        const repository = new JobRepository(this.client)
+        const jobRepository = new JobRepository(this.client)
+        const profileRepository = new ProfileRepository(this.client)
         const tokenService = new JwtTokenService(process.env.PRIVATE_KEY as string)
         const tokenStore = new RedisTokenStore(this.redisClient)
         const tokenValidator = new TokenValidator(tokenService, tokenStore)
-        return JobRouter.configure(repository, tokenValidator)
+        return JobRouter.configure(jobRepository, profileRepository, tokenValidator)
     }
 
 

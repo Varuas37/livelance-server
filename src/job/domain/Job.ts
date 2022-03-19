@@ -1,5 +1,3 @@
-
-
 export class Job {
     constructor(
         public readonly postedOn: string,

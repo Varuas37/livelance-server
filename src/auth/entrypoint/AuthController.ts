@@ -47,9 +47,9 @@ export default class AuthController {
 
     public async signup(req: express.Request, res: express.Response) {
         try {
-            const { email, password } = req.body
+            const { email, password, accountType } = req.body
             return this.signUpUseCase
-                .execute(email, password)
+                .execute(email, password, accountType)
                 .then((id: string) => {
                     res.status(200).json({ auth_token: this.tokenService.encode(id) })
                 }

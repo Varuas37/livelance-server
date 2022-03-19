@@ -68,6 +68,12 @@ export default class JobRepository implements IJobRepository {
     }
 
     async getJobFeedForUser(skills: string[], category: string, subCategory: string): Promise<Job[]> {
-        throw new Error('Method not implemented.');
+        const jobModel = this.client.model<JobDocument>(
+            'job',
+            JobSchema
+        ) as JobModel
+        var x = jobModel.find({ skills: { $exists: true, $in: skills } })
+        console.log('🇾🇪 ' + x);
+        return x;
     }
 }
