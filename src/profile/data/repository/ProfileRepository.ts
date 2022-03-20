@@ -36,9 +36,10 @@ export default class ProfileRepository implements IProfileRepository {
     }
 
     async find(userId: string): Promise<UserProfile> {
-        const userProfileModel = this.client.model<UserProfile>('UserProfile', UserProfileSchema)
+        const userProfileModel = this.client.model<UserProfile>('profile', UserProfileSchema)
         const userProfile = await userProfileModel.findOne({ userId: userId });
-        console.log('🏴: ' + userProfile + userId);
+        console.log('👀: ' + userId);
+        console.log('🔪: ' + userProfile);
         if (userProfile === null) return Promise.reject('User profile does not exist')
         return new UserProfile(userProfile.userId, userProfile.accountType, userProfile.firstName, userProfile.lastName, userProfile.gender, userProfile.accountStatus, userProfile.avatar, userProfile.contactNumber, userProfile.title, userProfile.about, userProfile.skills, userProfile.reviews);
     }

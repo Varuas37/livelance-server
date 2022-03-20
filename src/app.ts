@@ -8,9 +8,9 @@ CompositionRoot.configure()
 const PORT = process.env.PORT
 
 const app = express()
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
 // Routes
 app.use('/auth', CompositionRoot.authRouter())
 app.use('/jobs', CompositionRoot.jobRouter())

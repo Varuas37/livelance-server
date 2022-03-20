@@ -15,6 +15,11 @@ export default class ProfileRouter {
             (req, res) => controller.status(req, res)
 
         )
+        router.get('/:id',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.find(req, res)
+
+        )
         return router
     }
 }
