@@ -50,7 +50,6 @@ export default class ProfileRepository implements IProfileRepository {
         return new UserProfile(updatedProfile.userId, updatedProfile.accountType, updatedProfile.firstName, updatedProfile.lastName, updatedProfile.gender, updatedProfile.accountStatus, updatedProfile.avatar, updatedProfile.contactNumber, updatedProfile.title, updatedProfile.about, updatedProfile.skills, updatedProfile.reviews);
     }
 
-
     delete(userId: string): Promise<string> {
         throw new Error('Method not implemented.');
     }
