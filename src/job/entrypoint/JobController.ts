@@ -23,9 +23,12 @@ export default class JobController {
 
     public async post(req: express.Request, res: express.Response) {
         try {
-            const { postedOn, jobTitle, jobDescription, category, subCategory, skills, postedBy, duration, rate, rateDuration, location, zipcode } = req.body
+            console.log('🔪' + req.body);
+            const userID = req.user;
+            console.log('👀' + userID);
 
-            const job = new Job(postedOn, jobTitle, jobDescription, category, subCategory, skills, postedBy, duration, rate, rateDuration, location, zipcode)
+            const { postedOn, jobTitle, jobDescription, category, subCategory, skills, duration, rate, rateDuration, location, zipcode } = req.body
+            const job = new Job(postedOn, jobTitle, jobDescription, category, subCategory, skills, userID, duration, rate, rateDuration, location, zipcode)
             return this.repository.createJob(job)
                 .then((job) =>
                     res.status(200).json({
@@ -34,6 +37,7 @@ export default class JobController {
                 )
                 .catch((err: Error) => res.status(404).json({ error: err }))
         } catch (err) {
+            console.log('error:' + err);
             return res.status(400).json({ error: err })
         }
     }
