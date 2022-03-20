@@ -1,5 +1,9 @@
 import * as mongoose from 'mongoose'
 
+const enumRateDuration = {
+    values: ["hour", "week", "project", "month",],
+    message: "Please specify proper duration. Accepted values are: hour, week, project, month",
+};
 export interface JobDocument extends mongoose.Document {
     id: string
     postedOn: string,
@@ -27,9 +31,9 @@ const JobSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "user",
         },
-        duration: { type: String, required: true },
+        duration: { type: String, required: true, },
         rate: { type: Number, required: true },
-        rateDuration: { type: String, required: true, default: "hour" },
+        rateDuration: { type: String, required: true, default: "hour", enum: enumRateDuration },
         location: { type: String, required: true },
         zipcode: { type: Number, required: true },
     }

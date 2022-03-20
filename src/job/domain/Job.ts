@@ -14,4 +14,5 @@ export class Job {
         public readonly zipcode: number,
     ) {
     }
+    static modelName = "job"
 }

@@ -11,7 +11,7 @@ export default class JobRepository implements IJobRepository {
 
     async createJob(job: Job): Promise<Job> {
         const jobModel = this.client.model<JobDocument>(
-            'job',
+            Job.modelName,
             JobSchema
         ) as JobModel
         const newJob = new jobModel({
@@ -34,7 +34,7 @@ export default class JobRepository implements IJobRepository {
 
     async delete(jobId: string): Promise<String> {
         const jobModel = this.client.model<JobDocument>(
-            'job',
+            Job.modelName,
             JobSchema
         ) as JobModel
         const result = await jobModel.findById(jobId)
@@ -46,7 +46,7 @@ export default class JobRepository implements IJobRepository {
 
     async findOne(id: string): Promise<Job> {
         const jobModel = this.client.model<JobDocument>(
-            'job',
+            Job.modelName,
             JobSchema
         ) as JobModel
         const result = await jobModel.findById(id)
@@ -69,7 +69,7 @@ export default class JobRepository implements IJobRepository {
 
     async getJobFeedForUser(skills: string[], category: string, subCategory: string): Promise<Job[]> {
         const jobModel = this.client.model<JobDocument>(
-            'job',
+            Job.modelName,
             JobSchema
         ) as JobModel
         var x = jobModel.find({ skills: { $exists: true, $in: skills } })

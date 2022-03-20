@@ -2,18 +2,22 @@ import express from 'express';
 import IProfileRepository from '../../profile/domain/IProfileRepository';
 import IJobRepository from '../domain/IJobRepository';
 import { Job } from '../domain/Job';
+import IJobActivityRepository from '../domain/JobActivity/IJobActivity';
 import GenerateJobFeedUseCase from '../usecases/GenerateJobFeed';
 
 export default class JobController {
     private readonly generateJobFeedUseCase: GenerateJobFeedUseCase
     private readonly repository: IJobRepository
+    private readonly jobActivityRepository: IJobActivityRepository
 
     constructor(
         repository: IJobRepository,
+        jobActivityRepository: IJobActivityRepository,
         generateJobfeedUseCase: GenerateJobFeedUseCase
     ) {
 
         this.repository = repository
+        this.jobActivityRepository = jobActivityRepository
         this.generateJobFeedUseCase = generateJobfeedUseCase
     };
 
@@ -57,6 +61,7 @@ export default class JobController {
         }
     }
 
+
     public async delete(req: express.Request, res: express.Response) {
         try {
             const { id } = req.params
@@ -73,7 +78,7 @@ export default class JobController {
     }
     public async getJobFeedForUser(req: express.Request, res: express.Response) {
         try {
-            const { skills, category, subCategory } = req.body
+            const { category, subCategory } = req.body
             const userId = req.user
             return this.generateJobFeedUseCase.execute(userId, category, subCategory)
                 .then((jobs) =>
@@ -87,6 +92,27 @@ export default class JobController {
             return res.status(400).json({ error: err })
         }
     }
+
+    public async insertOrUpdateJobActivity(req: express.Request, res: express.Response) {
+        try {
+            console.log('I am here 🔪' + JSON.stringify(req.body));
+            const { status } = req.body
+            const { id } = req.params
+
+            return this.jobActivityRepository.saveJob(id, req.user)
+                .then((result) =>
+
+                    res.status(200).json({
+                        status: result,
+                    })
+                )
+                .catch((err: Error) => res.status(404).json({ error: err }))
+        } catch (err) {
+            console.log('OOPS 💅' + err);
+            return res.status(400).json({ error: err })
+        }
+    }
+
 
 }
 

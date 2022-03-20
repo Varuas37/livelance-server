@@ -10,6 +10,7 @@ import ITokenService from './auth/services/ITokenService'
 import ITokenStore from './auth/services/ITokenStore'
 
 import { JobModel } from './job/data/models/JobModel'
+import JobActivityRepository from './job/data/repository/JobActivityRepository'
 import JobRepository from './job/data/repository/JobRepository'
 import JobRouter from './job/entrypoint/JobRouter'
 import MessageRepository from './messages/data/repository/MessageRepository'
@@ -60,9 +61,10 @@ export default class CompositionRoot {
 
     public static jobRouter() {
         const jobRepository = new JobRepository(this.client)
+        const jobActivityRepository = new JobActivityRepository(this.client)
         const profileRepository = new ProfileRepository(this.client)
         const tokenValidator = new TokenValidator(this.tokenService, this.tokenStore)
-        return JobRouter.configure(jobRepository, profileRepository, tokenValidator)
+        return JobRouter.configure(jobRepository, profileRepository, jobActivityRepository, tokenValidator)
     }
 
     public static messageRouter() {

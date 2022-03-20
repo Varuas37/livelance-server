@@ -18,7 +18,10 @@ export default class ProfileRouter {
         router.get('/:id',
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.find(req, res)
-
+        )
+        router.put('/',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.update(req, res)
         )
         return router
     }
