@@ -16,5 +16,6 @@ app.use('/auth', CompositionRoot.authRouter())
 app.use('/jobs', CompositionRoot.jobRouter())
 app.use('/profile', CompositionRoot.profileRouter())
 app.use('/message', CompositionRoot.messageRouter())
+app.use('/review', CompositionRoot.reviewRouter())
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}`))

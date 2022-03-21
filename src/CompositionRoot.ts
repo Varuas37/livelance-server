@@ -17,6 +17,8 @@ import MessageRepository from './messages/data/repository/MessageRepository'
 import MessageRouter from './messages/entrypoint/MessageRouter'
 import ProfileRepository from './profile/data/repository/ProfileRepository'
 import ProfileRouter from './profile/entrypoint/ProfileRouter'
+import ReviewRepository from './reviews/data/repository/ReviewRepository'
+import ReviewRouter from './reviews/entrypoint/ReviewRouter'
 
 export default class CompositionRoot {
     private static client: mongoose.Mongoose
@@ -57,6 +59,12 @@ export default class CompositionRoot {
         const repository = new ProfileRepository(this.client)
         const tokenValidator = new TokenValidator(this.tokenService, this.tokenStore)
         return ProfileRouter.configure(repository, tokenValidator);
+    }
+
+    public static reviewRouter() {
+        const repository = new ReviewRepository(this.client)
+        const tokenValidator = new TokenValidator(this.tokenService, this.tokenStore)
+        return ReviewRouter.configure(repository, tokenValidator);
     }
 
     public static jobRouter() {

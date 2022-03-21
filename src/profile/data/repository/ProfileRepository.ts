@@ -1,6 +1,7 @@
 import { Mongoose } from 'mongoose'
 import User from '../../../auth/domain/User';
 import IProfileRepository from "../../domain/IProfileRepository";
+import Review from '../../domain/Review';
 import UserProfile from "../../domain/UserProfile";
 import { UserProfileDocument, UserProfileModel, UserProfileSchema } from '../models/UserProfileModel';
 
@@ -8,9 +9,8 @@ import { UserProfileDocument, UserProfileModel, UserProfileSchema } from '../mod
 export default class ProfileRepository implements IProfileRepository {
     constructor(private readonly client: Mongoose) { }
 
-
     async add(userProfile: UserProfile): Promise<string> {
-        const model = this.client.model<UserProfileDocument>('profile', UserProfileSchema);
+        const model = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
         const newProfile = new model({
             userId: userProfile.userId,
             accountType: userProfile.accountType,
@@ -31,7 +31,7 @@ export default class ProfileRepository implements IProfileRepository {
     }
 
     async update(userProfile: UserProfile): Promise<UserProfile> {
-        const model = this.client.model<UserProfileDocument>('profile', UserProfileSchema);
+        const model = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
         const query = { userId: userProfile.userId }
         // THIS ONLY UPDATES THE FIELDS THAT ARE NOT NULL
         var updatedFields: { [propName: string]: any } = {};
@@ -55,15 +55,31 @@ export default class ProfileRepository implements IProfileRepository {
     }
 
 
-    delete(userId: string): Promise<string> {
-        throw new Error('Method not implemented.');
+    async delete(userId: string): Promise<string> {
+        const userProfileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema)
+        const userProfile = await userProfileModel.findOneAndDelete({ userId: userId });
+        if (userProfile === null) return Promise.reject('User profile does not exist')
+        return userProfile.id;
     }
 
     async find(userId: string): Promise<UserProfile> {
-        const userProfileModel = this.client.model<UserProfileDocument>('profile', UserProfileSchema)
+        const userProfileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema)
         const userProfile = await userProfileModel.findOne({ userId: userId });
         if (userProfile === null) return Promise.reject('User profile does not exist')
         return new UserProfile(userProfile.userId, userProfile.accountType, userProfile.firstName, userProfile.lastName, userProfile.gender, userProfile.accountStatus, userProfile.avatar, userProfile.coverImage, userProfile.contactNumber, userProfile.title, userProfile.about, userProfile.skills, userProfile.reviews);
+    }
+    // REVIEWS 
+    addReviews(review: Review): Promise<Review> {
+        throw new Error('Method not implemented.');
+    }
+    updateReviews(review: Review): Promise<Review> {
+        throw new Error('Method not implemented.');
+    }
+    removeReviews(review: Review): Promise<Review> {
+        throw new Error('Method not implemented.');
+    }
+    getAllReviews(review: Review): Promise<Review> {
+        throw new Error('Method not implemented.');
     }
 }
 

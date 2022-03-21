@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose'
 import User from '../../../auth/domain/User'
-import UserProfile from '../../domain/UserProfile'
+import UserProfile from '../../../profile/domain/UserProfile'
 
 export interface ReviewDocument extends mongoose.Document {
     postedOn: string,
