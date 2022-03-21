@@ -1,4 +1,6 @@
 import * as mongoose from 'mongoose'
+import User from '../../../auth/domain/User'
+import Reviews from '../../domain/Review'
 
 export interface UserProfileDocument extends mongoose.Document {
     id: string,
@@ -20,7 +22,7 @@ export interface UserProfileModel extends mongoose.Model<UserProfileDocument> { 
 const UserProfileSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
+        ref: User.modelName,
     },
     accountType: { type: String, required: true },
     firstName: { type: String, required: false },
@@ -35,7 +37,7 @@ const UserProfileSchema = new mongoose.Schema({
     skills: [{ type: String, required: false }],
     reviews: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "reviews",
+        ref: Reviews.modelName,
     }],
 })
 export { UserProfileSchema }

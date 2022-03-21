@@ -7,6 +7,8 @@ export default class Reviews {
         public readonly content: string,
         public readonly rating: number,
     ) { }
+
+    static modelName = "reviews"
 }
 
 

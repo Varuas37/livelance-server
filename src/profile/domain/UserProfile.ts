@@ -14,4 +14,6 @@ export default class UserProfile {
         public readonly skills?: string[],
         public readonly reviews?: string[],
     ) { }
+
+    static modelName = "profile";
 }

@@ -4,4 +4,6 @@ export default class User {
         public readonly email: string,
         public readonly password: string,
     ) { }
+
+    static modelName = "user"
 }
