@@ -5,4 +5,5 @@ export default interface IProfileRepository {
     add(userProfile: UserProfile): Promise<string>;
     update(userProfile: UserProfile): Promise<UserProfile>;
     delete(userId: string): Promise<string>;
+    // addReviews(: string[]): Promise<string>;
 }

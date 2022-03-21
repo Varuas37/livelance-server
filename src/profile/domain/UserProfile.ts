@@ -7,6 +7,7 @@ export default class UserProfile {
         public readonly gender?: string,
         public readonly accountStatus?: string,
         public readonly avatar?: string,
+        public readonly coverImage?: string,
         public readonly contactNumber?: string,
         public readonly title?: string,
         public readonly about?: string,

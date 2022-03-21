@@ -27,8 +27,8 @@ export default class ProfileController {
     public async update(req: express.Request, res: express.Response) {
         try {
             const userId = req.user
-            const { accountType, firstName, lastName, gender, accountStatus, avatar, contactNumber, title, about, skills, reviews } = req.body
-            const userProfile = new UserProfile(userId, accountType, firstName, lastName, gender, accountStatus, avatar, contactNumber, title, about, skills, reviews);
+            const { accountType, firstName, lastName, gender, accountStatus, avatar, coverImage, contactNumber, title, about, skills, reviews } = req.body
+            const userProfile = new UserProfile(userId, accountType, firstName, lastName, gender, accountStatus, avatar, coverImage, contactNumber, title, about, skills, reviews);
             return this.repository.update(userProfile)
                 .then((profile) =>
                     res.status(200).json({
@@ -40,6 +40,7 @@ export default class ProfileController {
             return res.status(400).json({ error: err })
         }
     }
+
 }
 
 declare module 'express-serve-static-core' {

@@ -8,6 +8,7 @@ import { UserProfileDocument, UserProfileModel, UserProfileSchema } from '../mod
 export default class ProfileRepository implements IProfileRepository {
     constructor(private readonly client: Mongoose) { }
 
+
     async add(userProfile: UserProfile): Promise<string> {
         const model = this.client.model<UserProfileDocument>('profile', UserProfileSchema);
         const newProfile = new model({
@@ -18,6 +19,7 @@ export default class ProfileRepository implements IProfileRepository {
             gender: userProfile.gender,
             accountStatus: userProfile.accountStatus,
             avatar: userProfile.avatar,
+            coverImage: userProfile.coverImage,
             contactNumber: userProfile.contactNumber,
             title: userProfile.title,
             about: userProfile.about,
@@ -27,6 +29,7 @@ export default class ProfileRepository implements IProfileRepository {
         await newProfile.save();
         return newProfile.id;
     }
+
     async update(userProfile: UserProfile): Promise<UserProfile> {
         const model = this.client.model<UserProfileDocument>('profile', UserProfileSchema);
         const query = { userId: userProfile.userId }
@@ -38,6 +41,7 @@ export default class ProfileRepository implements IProfileRepository {
         if (userProfile.gender) updatedFields.gender = userProfile.gender;
         if (userProfile.accountStatus) updatedFields.accountStatus = userProfile.accountStatus;
         if (userProfile.avatar) updatedFields.avatar = userProfile.avatar;
+        if (userProfile.coverImage) updatedFields.coverImage = userProfile.coverImage;
         if (userProfile.contactNumber) updatedFields.contactNumber = userProfile.contactNumber;
         if (userProfile.title) updatedFields.title = userProfile.title;
         if (userProfile.about) updatedFields.about = userProfile.about;
@@ -47,8 +51,9 @@ export default class ProfileRepository implements IProfileRepository {
         var result = await model.updateOne(query, updatedFields);
         if (result === null) return Promise.reject('Failed Updating Profile')
         const updatedProfile = await this.find(userProfile.userId);
-        return new UserProfile(updatedProfile.userId, updatedProfile.accountType, updatedProfile.firstName, updatedProfile.lastName, updatedProfile.gender, updatedProfile.accountStatus, updatedProfile.avatar, updatedProfile.contactNumber, updatedProfile.title, updatedProfile.about, updatedProfile.skills, updatedProfile.reviews);
+        return new UserProfile(updatedProfile.userId, updatedProfile.accountType, updatedProfile.firstName, updatedProfile.lastName, updatedProfile.gender, updatedProfile.accountStatus, updatedProfile.avatar, updatedFields.coverImage, updatedProfile.contactNumber, updatedProfile.title, updatedProfile.about, updatedProfile.skills, updatedProfile.reviews);
     }
+
 
     delete(userId: string): Promise<string> {
         throw new Error('Method not implemented.');
@@ -58,7 +63,7 @@ export default class ProfileRepository implements IProfileRepository {
         const userProfileModel = this.client.model<UserProfileDocument>('profile', UserProfileSchema)
         const userProfile = await userProfileModel.findOne({ userId: userId });
         if (userProfile === null) return Promise.reject('User profile does not exist')
-        return new UserProfile(userProfile.userId, userProfile.accountType, userProfile.firstName, userProfile.lastName, userProfile.gender, userProfile.accountStatus, userProfile.avatar, userProfile.contactNumber, userProfile.title, userProfile.about, userProfile.skills, userProfile.reviews);
+        return new UserProfile(userProfile.userId, userProfile.accountType, userProfile.firstName, userProfile.lastName, userProfile.gender, userProfile.accountStatus, userProfile.avatar, userProfile.coverImage, userProfile.contactNumber, userProfile.title, userProfile.about, userProfile.skills, userProfile.reviews);
     }
 }
 
