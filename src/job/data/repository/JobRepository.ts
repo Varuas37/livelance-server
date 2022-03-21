@@ -72,7 +72,7 @@ export default class JobRepository implements IJobRepository {
             Job.modelName,
             JobSchema
         ) as JobModel
-        var x = jobModel.find({ skills: { $exists: true, $in: skills } })
-        return x;
+        var jobs = jobModel.find({ skills: { $exists: true, $in: skills } })
+        return jobs;
     }
 }

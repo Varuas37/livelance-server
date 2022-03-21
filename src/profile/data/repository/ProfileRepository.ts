@@ -68,18 +68,6 @@ export default class ProfileRepository implements IProfileRepository {
         if (userProfile === null) return Promise.reject('User profile does not exist')
         return new UserProfile(userProfile.userId, userProfile.accountType, userProfile.firstName, userProfile.lastName, userProfile.gender, userProfile.accountStatus, userProfile.avatar, userProfile.coverImage, userProfile.contactNumber, userProfile.title, userProfile.about, userProfile.skills, userProfile.reviews);
     }
-    // REVIEWS 
-    addReviews(review: Review): Promise<Review> {
-        throw new Error('Method not implemented.');
-    }
-    updateReviews(review: Review): Promise<Review> {
-        throw new Error('Method not implemented.');
-    }
-    removeReviews(review: Review): Promise<Review> {
-        throw new Error('Method not implemented.');
-    }
-    getAllReviews(review: Review): Promise<Review> {
-        throw new Error('Method not implemented.');
-    }
+
 }
 

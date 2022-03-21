@@ -31,8 +31,9 @@ export default class ReviewController {
     public async update(req: express.Request, res: express.Response) {
         try {
             const { postedOn, profileId, authorId, title, content, rating } = req.body
+            const { id } = req.params
             const review = new Reviews(postedOn, profileId, authorId, title, content, rating);
-            return this.repository.updateReviews(review)
+            return this.repository.updateReviews(review, id)
                 .then((addedReview) =>
                     res.status(200).json({
                         review: addedReview,
