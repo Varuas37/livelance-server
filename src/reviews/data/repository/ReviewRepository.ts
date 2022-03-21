@@ -1,19 +1,19 @@
 import { Mongoose } from 'mongoose'
 import IReviewRepository from '../../domain/IReviewRepository'
-import Review from '../../domain/Review'
+import Reviews from '../../domain/Review'
 
 export default class ReviewRepository implements IReviewRepository {
     constructor(private readonly client: Mongoose) { }
-    addReviews(review: Review): Promise<Review> {
+    addReviews(review: Reviews): Promise<Reviews> {
         throw new Error('Method not implemented.')
     }
-    updateReviews(review: Review): Promise<Review> {
+    updateReviews(review: Reviews): Promise<Reviews> {
         throw new Error('Method not implemented.')
     }
-    removeReviews(review: Review): Promise<Review> {
+    removeReviews(reviewId: string): Promise<string> {
         throw new Error('Method not implemented.')
     }
-    getAllReviews(review: Review): Promise<Review> {
+    getAllReviews(userId: string): Promise<Array<Reviews>> {
         throw new Error('Method not implemented.')
     }
 

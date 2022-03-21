@@ -16,11 +16,25 @@ export default class ReviewRouter {
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.status(req, res)
         )
-        /* router.post('/',
-             (req, res, next) => tokenValidator.validate(req, res, next),
-             (req, res) => controller.post(req, res)
-         )
- */
+        router.post('/',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.post(req, res)
+        )
+        router.put('/',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.update(req, res)
+        )
+        router.delete('/',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.delete(req, res)
+        )
+
+        router.get('/',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.get(req, res)
+        )
+
+
         return router
     }
 }
