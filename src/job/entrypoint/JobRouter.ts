@@ -27,6 +27,10 @@ export default class JobRouter {
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.getListedJobs(req, res)
         )
+        router.get('/getbystatus',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.findAllByStatus(req, res)
+        )
 
         router.get('/status',
             (req, res, next) => tokenValidator.validate(req, res, next),
@@ -66,6 +70,7 @@ export default class JobRouter {
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.acceptJob(req, res)
         )
+
         return router
     }
     private static composeController(

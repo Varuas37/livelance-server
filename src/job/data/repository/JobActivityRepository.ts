@@ -18,7 +18,7 @@ export default class JobActivityRepository implements IJobActivityRepository {
     }
     async findAllByStatus(status: string, userId: string): Promise<JobActivity[]> {
         const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
-        const results = model.find({ status: status });
+        const results = model.find({ status: status, userId: userId }).exec();
         return results;
     }
 
@@ -64,7 +64,6 @@ export default class JobActivityRepository implements IJobActivityRepository {
     }
     async acceptJob(id: string, userId: string): Promise<String> {
         // TODO: Add further security. Check if the job has actually been offered first. For this, the job Status first needs to be Offered.
-
         const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
         const modelProfile = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
         const profile = await modelProfile.findOne({ userId: userId })

@@ -184,6 +184,21 @@ export default class JobController {
             return res.status(400).json({ error: err })
         }
     }
+    public async findAllByStatus(req: express.Request, res: express.Response) {
+        try {
+            const { status } = req.body
+            return this.jobActivityRepository.findAllByStatus(status, req.user)
+                .then((result) =>
+                    res.status(200).json({
+                        status: result,
+                    })
+                )
+                .catch((err: Error) => res.status(404).json({ error: err }))
+        } catch (err) {
+            console.log('OOPS 💅' + err);
+            return res.status(400).json({ error: err })
+        }
+    }
 
 }
 
