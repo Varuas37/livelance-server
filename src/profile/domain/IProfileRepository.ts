@@ -7,6 +7,8 @@ export default interface IProfileRepository {
     add(userProfile: UserProfile): Promise<string>;
     update(userProfile: UserProfile): Promise<UserProfile>;
     delete(userId: string): Promise<string>;
+    // For employers
     getProfilesByCategory(category: string[]): Promise<UserProfile[]>
+    getNearbyUsers(category: string[], zipcode: string): Promise<UserProfile[]>
 
 }

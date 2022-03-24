@@ -1,4 +1,6 @@
 import { Mongoose } from 'mongoose'
+import { UserProfileDocument, UserProfileSchema } from '../../../profile/data/models/UserProfileModel';
+import UserProfile from '../../../profile/domain/UserProfile';
 import IReviewRepository from '../../domain/IReviewRepository'
 import Reviews from '../../domain/Reviews'
 import { ReviewDocument, ReviewModel, ReviewSchema } from '../model/ReviewModel'
@@ -57,14 +59,14 @@ export default class ReviewRepository implements IReviewRepository {
         return reviews;
     }
 
-    async getSummaryOfReviews(userId: string): Promise<{ [propName: string]: any; }> {
+    async getSummaryOfReviews(profileId: string): Promise<{ [propName: string]: any; }> {
         const model = this.client.model<ReviewDocument>(Reviews.modelName, ReviewSchema);
 
-        const oneRating = Number((await model.countDocuments({ rating: 1 })).toString());
-        const twoRating = Number((await model.countDocuments({ rating: 2 })).toString());
-        const threeRating = Number((await model.countDocuments({ rating: 3 })).toString());
-        const fourRating = Number((await model.countDocuments({ rating: 4 })).toString());
-        const fiveRating = Number((await model.countDocuments({ rating: 5 })).toString());
+        const oneRating = Number((await model.countDocuments({ rating: 1, profileId: profileId }).exec()).toString());
+        const twoRating = Number((await model.countDocuments({ rating: 2, profileId: profileId }).exec()).toString());
+        const threeRating = Number((await model.countDocuments({ rating: 3, profileId: profileId }).exec()).toString());
+        const fourRating = Number((await model.countDocuments({ rating: 4, profileId: profileId }).exec()).toString());
+        const fiveRating = Number((await model.countDocuments({ rating: 5, profileId: profileId }).exec()).toString());
 
         const totalCount = oneRating + twoRating + threeRating + fourRating + fiveRating
 
