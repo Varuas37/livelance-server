@@ -13,7 +13,22 @@ export default class ProfileController {
     public async find(req: express.Request, res: express.Response) {
         try {
             const { id } = req.params
-            return this.repository.find(id)
+            return this.repository.getProfile(id)
+                .then((profile) =>
+                    res.status(200).json({
+                        profile: profile,
+                    })
+                )
+                .catch((err: Error) => res.status(404).json({ error: err }))
+        } catch (err) {
+            return res.status(400).json({ error: err })
+        }
+    }
+
+    public async getProfilesByCategory(req: express.Request, res: express.Response) {
+        try {
+            const { categories } = req.body
+            return this.repository.getProfilesByCategory(categories)
                 .then((profile) =>
                     res.status(200).json({
                         profile: profile,
@@ -28,7 +43,7 @@ export default class ProfileController {
         try {
             const userId = req.user
 
-            return this.repository.find(userId)
+            return this.repository.findByUserId(userId)
                 .then((profile) =>
                     res.status(200).json({
                         profile: profile,

@@ -8,6 +8,7 @@ export default class ProfileRepository implements IProfileRepository {
     constructor(private readonly client: Mongoose) { }
 
 
+
     async add(userProfile: UserProfile): Promise<string> {
         const model = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
         const newProfile = new model({
@@ -59,7 +60,7 @@ export default class ProfileRepository implements IProfileRepository {
 
         var result = await model.updateOne(query, updatedFields);
         if (result === null) return Promise.reject('Failed Updating Profile')
-        const updatedProfile = await this.find(userProfile.userId);
+        const updatedProfile = await this.findByUserId(userProfile.userId);
         return new UserProfile(updatedProfile.userId, updatedProfile.accountType, updatedProfile.firstName, updatedProfile.lastName, updatedProfile.gender, updatedProfile.accountStatus, updatedProfile.avatar, updatedFields.coverImage, updatedProfile.contactNumber, updatedProfile.title, updatedProfile.about, updatedProfile.skills, updatedProfile.reviews, updatedProfile.city, updatedProfile.state, updatedProfile.zipcode, updatedProfile.categories, updatedProfile.subCategories);
     }
 
@@ -71,11 +72,23 @@ export default class ProfileRepository implements IProfileRepository {
         return userProfile.id;
     }
 
-    async find(userId: string): Promise<UserProfile> {
+    async findByUserId(userId: string): Promise<UserProfile> {
         const userProfileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema)
         const userProfile = await userProfileModel.findOne({ userId: userId });
         if (userProfile === null) return Promise.reject('User profile does not exist')
         return new UserProfile(userProfile.userId, userProfile.accountType, userProfile.firstName, userProfile.lastName, userProfile.gender, userProfile.accountStatus, userProfile.avatar, userProfile.coverImage, userProfile.contactNumber, userProfile.title, userProfile.about, userProfile.skills, userProfile.reviews, userProfile.city, userProfile.state, userProfile.zipcode, userProfile.categories, userProfile.subCategories, userProfile.id);
+    }
+    async getProfile(profileId: string): Promise<UserProfile> {
+        const userProfileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema)
+        const userProfile = await userProfileModel.findById(profileId);
+        if (userProfile === null) return Promise.reject('User profile does not exist')
+        return new UserProfile(userProfile.userId, userProfile.accountType, userProfile.firstName, userProfile.lastName, userProfile.gender, userProfile.accountStatus, userProfile.avatar, userProfile.coverImage, userProfile.contactNumber, userProfile.title, userProfile.about, userProfile.skills, userProfile.reviews, userProfile.city, userProfile.state, userProfile.zipcode, userProfile.categories, userProfile.subCategories, userProfile.id);
+    }
+
+    async getProfilesByCategory(category: string[]): Promise<UserProfile[]> {
+        const userProfileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema)
+        const userProfile = await userProfileModel.find({ categories: { $exists: true, $in: category } });
+        return userProfile;
     }
 
 }

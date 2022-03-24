@@ -1,4 +1,6 @@
 import { Mongoose } from "mongoose";
+import { UserProfileDocument, UserProfileSchema } from "../../../profile/data/models/UserProfileModel";
+import UserProfile from "../../../profile/domain/UserProfile";
 import { Job } from "../../domain/Job";
 import IJobActivityRepository from "../../domain/JobActivity/IJobActivity";
 import { JobActivity } from "../../domain/JobActivity/JobActivity";
@@ -6,6 +8,7 @@ import { JobActivityDocument, JobActivitySchema } from "../models/JobActivityMod
 
 export default class JobActivityRepository implements IJobActivityRepository {
     constructor(private readonly client: Mongoose) { }
+
 
     async find(id: string, userId: string): Promise<JobActivity> {
         const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
@@ -26,10 +29,14 @@ export default class JobActivityRepository implements IJobActivityRepository {
     }
     async saveJob(id: string, userId: string): Promise<String> {
         const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
+        const modelProfile = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
+        const profile = await modelProfile.findOne({ userId: userId })
+        if (profile === null) return Promise.reject('User Profile Does not exist');
         const andFilter = {
             $and: [
                 { jobId: id, },
-                { userId: userId }
+                { userId: userId },
+                { profileId: profile.id }
             ]
         }
         const update = { status: 'Saved' };
@@ -58,4 +65,13 @@ export default class JobActivityRepository implements IJobActivityRepository {
         throw new Error("Method not implemented.");
     }
 
+    async getCandidatesList(jobId: string): Promise<{ [propName: string]: any; }> {
+        const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
+        const candidateList = await model.find({ status: 'Applied', jobId: jobId }).exec();
+        console.log(candidateList);
+        return {
+            candidates: candidateList
+        };
+    }
 }
+

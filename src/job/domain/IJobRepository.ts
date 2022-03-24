@@ -1,3 +1,4 @@
+
 import { Job } from "./Job"
 
 export default interface IJobRepository {
@@ -5,5 +6,5 @@ export default interface IJobRepository {
     findOne(id: string): Promise<Job>
     delete(jobId: string): Promise<String>
     getJobFeedForUser(skills: string[], category: string, subCategory: string): Promise<Array<Job>>
-
+    getListedJobs(userId: string): Promise<Job[]>
 }

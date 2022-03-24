@@ -15,8 +15,7 @@ export default class GenerateJobFeedUseCase {
         subCategory: string,
     ): Promise<Array<Job>> {
         try {
-            const userProfile = await this.userProfileRepository.find(userId)
-            console.log('👀' + userProfile);
+            const userProfile = await this.userProfileRepository.findByUserId(userId)
             const feed = await this.jobRepository.getJobFeedForUser(userProfile.skills, category, subCategory);
             return feed;
         } catch (err) {

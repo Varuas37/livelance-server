@@ -14,13 +14,14 @@ export default class ReviewRouter {
         let controller = new ReviewController(repository)
 
 
-        router.get('/:id/summary',
-            (req: express.Request, res: express.Response, next) => tokenValidator.validate(req, res, next),
-            (req: express.Request, res: express.Response,) => controller.getSummary(req, res)
-        )
+
         router.get('/status',
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.status(req, res)
+        )
+        router.get('/:id',
+            (req: express.Request, res: express.Response, next) => tokenValidator.validate(req, res, next),
+            (req: express.Request, res: express.Response,) => controller.get(req, res)
         )
         router.post('/',
             addReviewValidationRules(),
@@ -40,13 +41,11 @@ export default class ReviewRouter {
             (req: express.Request, res: express.Response,) => controller.delete(req, res)
         )
 
-        router.get('/:id',
+
+        router.get('/:id/summary',
             (req: express.Request, res: express.Response, next) => tokenValidator.validate(req, res, next),
-            (req: express.Request, res: express.Response,) => controller.get(req, res)
+            (req: express.Request, res: express.Response,) => controller.getSummary(req, res)
         )
-
-
-
         return router
     }
 }

@@ -19,12 +19,19 @@ export default class JobRouter {
         let controller = JobRouter.composeController(
             jobRepository, userProfileRepository, jobActivityRepository
         )
+        router.get('/:id/candidates',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.getListOfCandidates(req, res)
+        )
+        router.get('/listed',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.getListedJobs(req, res)
+        )
 
         router.get('/status',
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.status(req, res)
         )
-
         router.post('/',
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.post(req, res)
@@ -42,6 +49,7 @@ export default class JobRouter {
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.getJobFeedForUser(req, res)
         )
+
         router.post('/save/:id',
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.insertOrUpdateJobActivity(req, res)

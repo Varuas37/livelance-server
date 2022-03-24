@@ -1,4 +1,5 @@
 import { Mongoose } from 'mongoose'
+import UserProfile from '../../../profile/domain/UserProfile';
 import IJobRepository from '../../domain/IJobRepository';
 import { Job } from '../../domain/Job';
 import { JobDocument, JobModel, JobSchema } from '../models/JobModel';
@@ -7,6 +8,7 @@ import { JobDocument, JobModel, JobSchema } from '../models/JobModel';
 
 export default class JobRepository implements IJobRepository {
     constructor(private readonly client: Mongoose) { }
+
 
 
     async createJob(job: Job): Promise<Job> {
@@ -77,4 +79,14 @@ export default class JobRepository implements IJobRepository {
         var jobs = jobModel.find({ skills: { $exists: true, $in: skills } })
         return jobs;
     }
+
+    async getListedJobs(userId: string): Promise<Job[]> {
+        const jobModel = this.client.model<JobDocument>(
+            Job.modelName,
+            JobSchema
+        ) as JobModel
+        const jobs = jobModel.find({ postedBy: userId })
+        return jobs;
+    }
+
 }

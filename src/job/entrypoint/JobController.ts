@@ -27,10 +27,7 @@ export default class JobController {
 
     public async post(req: express.Request, res: express.Response) {
         try {
-            console.log('🔪' + req.body);
             const userID = req.user;
-            console.log('👀' + userID);
-
             const { postedOn, jobTitle, jobDescription, category, subCategory, skills, duration, rate, rateDuration, city, state, zipcode } = req.body
             const job = new Job(postedOn, jobTitle, jobDescription, category, subCategory, skills, userID, duration, rate, rateDuration, city, state, zipcode)
             return this.repository.createJob(job)
@@ -86,6 +83,34 @@ export default class JobController {
                     res.status(200).json({
                         jobs: jobs,
                     })
+                )
+                .catch((err: Error) => res.status(404).json({ error: err }))
+        } catch (err) {
+            return res.status(400).json({ error: err })
+        }
+    }
+
+    public async getListedJobs(req: express.Request, res: express.Response) {
+        try {
+            const userId = req.user
+            return this.repository.getListedJobs(userId)
+                .then((listedJob) =>
+                    res.status(200).json({
+                        jobs: listedJob,
+                    })
+                )
+                .catch((err: Error) => res.status(404).json({ error: err }))
+        } catch (err) {
+            return res.status(400).json({ error: err })
+        }
+    }
+
+    public async getListOfCandidates(req: express.Request, res: express.Response) {
+        try {
+            const { id } = req.params
+            return this.jobActivityRepository.getCandidatesList(id)
+                .then((candidateList) =>
+                    res.status(200).json(candidateList)
                 )
                 .catch((err: Error) => res.status(404).json({ error: err }))
         } catch (err) {
