@@ -52,7 +52,19 @@ export default class JobRouter {
 
         router.post('/save/:id',
             (req, res, next) => tokenValidator.validate(req, res, next),
-            (req, res) => controller.insertOrUpdateJobActivity(req, res)
+            (req, res) => controller.saveJob(req, res)
+        )
+        router.post('/apply/:id',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.applyJob(req, res)
+        )
+        router.post('/jobdecision/:id',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.offerOrDenyJob(req, res)
+        )
+        router.post('/accept/:id',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.acceptJob(req, res)
         )
         return router
     }

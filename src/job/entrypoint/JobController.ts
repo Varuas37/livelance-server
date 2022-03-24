@@ -118,12 +118,10 @@ export default class JobController {
         }
     }
 
-    public async insertOrUpdateJobActivity(req: express.Request, res: express.Response) {
+    public async saveJob(req: express.Request, res: express.Response) {
         try {
-            console.log('I am here 🔪' + JSON.stringify(req.body));
-            const { status } = req.body
-            const { id } = req.params
 
+            const { id } = req.params
             return this.jobActivityRepository.saveJob(id, req.user)
                 .then((result) =>
 
@@ -138,6 +136,54 @@ export default class JobController {
         }
     }
 
+    public async applyJob(req: express.Request, res: express.Response) {
+        try {
+            const { id } = req.params
+            return this.jobActivityRepository.applyJob(id, req.user)
+                .then((result) =>
+                    res.status(200).json({
+                        status: result,
+                    })
+                )
+                .catch((err: Error) => res.status(404).json({ error: err }))
+        } catch (err) {
+            console.log('OOPS 💅' + err);
+            return res.status(400).json({ error: err })
+        }
+    }
+    public async offerOrDenyJob(req: express.Request, res: express.Response) {
+        try {
+
+            const { status } = req.body
+            const { id } = req.params
+            return this.jobActivityRepository.offerOrDenyJob(id, status, req.user)
+                .then((result) =>
+                    res.status(200).json({
+                        status: result,
+                    })
+                )
+                .catch((err: Error) => res.status(404).json({ error: err }))
+        } catch (err) {
+            console.log('OOPS 💅' + err);
+            return res.status(400).json({ error: err })
+        }
+    }
+    public async acceptJob(req: express.Request, res: express.Response) {
+        try {
+
+            const { id } = req.params
+            return this.jobActivityRepository.acceptJob(id, req.user)
+                .then((result) =>
+                    res.status(200).json({
+                        status: result,
+                    })
+                )
+                .catch((err: Error) => res.status(404).json({ error: err }))
+        } catch (err) {
+            console.log('OOPS 💅' + err);
+            return res.status(400).json({ error: err })
+        }
+    }
 
 }
 

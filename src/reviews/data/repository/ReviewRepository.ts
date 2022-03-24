@@ -1,6 +1,4 @@
 import { Mongoose } from 'mongoose'
-import { UserProfileDocument, UserProfileSchema } from '../../../profile/data/models/UserProfileModel';
-import UserProfile from '../../../profile/domain/UserProfile';
 import IReviewRepository from '../../domain/IReviewRepository'
 import Reviews from '../../domain/Reviews'
 import { ReviewDocument, ReviewModel, ReviewSchema } from '../model/ReviewModel'

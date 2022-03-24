@@ -24,7 +24,22 @@ export default class JobActivityRepository implements IJobActivityRepository {
 
     async applyJob(id: string, userId: string): Promise<String> {
         const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
-        await model.replaceOne({ "status": "Applied" }, { "jobId": id, "userId": userId, "status": "Applied" }, { upsert: true });
+        const modelProfile = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
+        const profile = await modelProfile.findOne({ userId: userId })
+        if (profile === null) return Promise.reject('User Profile Does not exist');
+        const andFilter = {
+            $and: [
+                { jobId: id, },
+                { userId: userId },
+                { profileId: profile.id }
+            ]
+        }
+        const update = { status: 'Applied' };
+        const upsert = {
+            new: true,
+            upsert: true // Make this update into an upsert
+        }
+        await model.findOneAndUpdate(andFilter, update, upsert);
         return 'Applied';
     }
     async saveJob(id: string, userId: string): Promise<String> {
@@ -49,15 +64,44 @@ export default class JobActivityRepository implements IJobActivityRepository {
     }
     async acceptJob(id: string, userId: string): Promise<String> {
         // TODO: Add further security. Check if the job has actually been offered first. For this, the job Status first needs to be Offered.
+
         const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
-        await model.replaceOne({ "status": "Applied" }, { "jobId": id, "userId": userId, "status": "Accepted" }, { upsert: true });
+        const modelProfile = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
+        const profile = await modelProfile.findOne({ userId: userId })
+        if (profile === null) return Promise.reject('User Profile Does not exist');
+        const andFilter = {
+            $and: [
+                { jobId: id, },
+                { userId: userId },
+                { profileId: profile.id }
+            ]
+        }
+        const update = { status: 'Accepted' };
+        const upsert = {
+            new: true,
+            upsert: true // Make this update into an upsert
+        }
+        await model.findOneAndUpdate(andFilter, update, upsert);
         return 'Accepted';
     }
     async offerOrDenyJob(id: string, status: string, userId: string): Promise<String> {
-        // TODO: Add further security. Only the person who posted a job can change this stauts. Also, the logic needs to be different. 
-        // TODO: Find the user first, the id here will be the user id, and then go to that user's user activity for the jobId and then change the status. 
         const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
-        await model.replaceOne({ "status": status }, { "jobId": id, "userId": userId, "status": status }, { upsert: true });
+        const modelProfile = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
+        const profile = await modelProfile.findOne({ userId: userId })
+        if (profile === null) return Promise.reject('User Profile Does not exist');
+        const andFilter = {
+            $and: [
+                { jobId: id, },
+                { userId: userId },
+                { profileId: profile.id }
+            ]
+        }
+        const update = { status: status };
+        const upsert = {
+            new: true,
+            upsert: true // Make this update into an upsert
+        }
+        await model.findOneAndUpdate(andFilter, update, upsert);
         return status;
     }
 
