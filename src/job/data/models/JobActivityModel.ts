@@ -4,7 +4,7 @@ import UserProfile from '../../../profile/domain/UserProfile';
 import { Job } from '../../domain/Job';
 
 const enumStatus = {
-    values: ["Saved", "Applied", "Viewed", "Accepted", "Denied", "Offered"],
+    values: ["Saved", "Applied", "Viewed", "Accepted", "Denied", "Offered", "Archieve"],
     message: "Please specify the status of Job Activity. Accepted values are: Saved, Applied, Viewed, Accepted, Denied",
 };
 
