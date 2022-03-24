@@ -15,10 +15,16 @@ export default class ProfileRouter {
             (req, res) => controller.status(req, res)
 
         )
+        router.get('/current',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.getCurrentUser(req, res)
+        )
+
         router.get('/:id',
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.find(req, res)
         )
+
         router.put('/',
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.update(req, res)

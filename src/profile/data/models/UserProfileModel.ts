@@ -17,6 +17,11 @@ export interface UserProfileDocument extends mongoose.Document {
     about?: string,
     skills?: string[],
     reviews?: string[],
+    city?: string[],
+    state?: string[],
+    zipcode?: string,
+    categories?: string[],
+    subCategories?: string[],
 }
 export interface UserProfileModel extends mongoose.Model<UserProfileDocument> { }
 const UserProfileSchema = new mongoose.Schema({
@@ -39,5 +44,10 @@ const UserProfileSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: Reviews.modelName,
     }],
+    city: { type: String, required: false },
+    state: { type: String, required: false },
+    zipcode: { type: Number, required: false },
+    categories: [{ type: String, required: false }],
+    subCategories: [{ type: String, required: false }],
 })
 export { UserProfileSchema }

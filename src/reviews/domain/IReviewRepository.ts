@@ -6,5 +6,4 @@ export default interface IReviewRepository {
     removeReviews(reviewId: string): Promise<string>;
     getAllReviews(userId: string): Promise<Array<Reviews>>;
     getSummaryOfReviews(userId: string): Promise<{ [propName: string]: any }>;
-
 }

@@ -10,7 +10,8 @@ export class Job {
         public readonly duration: number,
         public readonly rate: number,
         public readonly rateDuration: string,
-        public readonly location: string,
+        public readonly city: string,
+        public readonly state: string,
         public readonly zipcode: number,
     ) {
     }

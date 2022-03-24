@@ -57,7 +57,11 @@ export default class ReviewRepository implements IReviewRepository {
         return reviews;
     }
 
-    getSummaryOfReviews(userId: string): Promise<{ [propName: string]: any; }> {
-        throw new Error('Method not implemented.');
+    async getSummaryOfReviews(userId: string): Promise<{ [propName: string]: any; }> {
+        const model = this.client.model<ReviewDocument>(Reviews.modelName, ReviewSchema);
+
+        return {
+            'asd': 'asdssad'
+        };
     }
 }

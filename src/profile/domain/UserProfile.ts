@@ -13,6 +13,12 @@ export default class UserProfile {
         public readonly about?: string,
         public readonly skills?: string[],
         public readonly reviews?: string[],
+
+        public readonly city?: string[],
+        public readonly state?: string[],
+        public readonly zipcode?: string,
+        public readonly categories?: string[],
+        public readonly subCategories?: string[],
     ) { }
 
     static modelName = "profile";
