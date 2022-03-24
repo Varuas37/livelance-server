@@ -1,4 +1,4 @@
-import Reviews from "./Review";
+import Reviews from "./Reviews";
 export default interface IReviewRepository {
     // REVIEWS
     addReviews(review: Reviews): Promise<Reviews>;

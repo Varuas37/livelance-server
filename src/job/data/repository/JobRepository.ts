@@ -25,7 +25,8 @@ export default class JobRepository implements IJobRepository {
             duration: job.duration,
             rate: job.rate,
             rateDuration: job.rateDuration,
-            location: job.location,
+            city: job.city,
+            state: job.state,
             zipcode: job.zipcode,
         })
         await newJob.save()
@@ -62,7 +63,8 @@ export default class JobRepository implements IJobRepository {
             result.duration,
             result.rate,
             result.rateDuration,
-            result.location,
+            result.city,
+            result.state,
             result.zipcode,
         )
     }

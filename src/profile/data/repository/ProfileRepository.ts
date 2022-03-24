@@ -1,9 +1,7 @@
 import { Mongoose } from 'mongoose'
-import User from '../../../auth/domain/User';
 import IProfileRepository from "../../domain/IProfileRepository";
-import Review from '../../domain/Review';
 import UserProfile from "../../domain/UserProfile";
-import { UserProfileDocument, UserProfileModel, UserProfileSchema } from '../models/UserProfileModel';
+import { UserProfileDocument, UserProfileSchema } from '../models/UserProfileModel';
 
 
 export default class ProfileRepository implements IProfileRepository {
@@ -74,12 +72,10 @@ export default class ProfileRepository implements IProfileRepository {
     }
 
     async find(userId: string): Promise<UserProfile> {
-        console.log('I am being called 👀' + userId);
         const userProfileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema)
         const userProfile = await userProfileModel.findOne({ userId: userId });
-
         if (userProfile === null) return Promise.reject('User profile does not exist')
-        return new UserProfile(userProfile.userId, userProfile.accountType, userProfile.firstName, userProfile.lastName, userProfile.gender, userProfile.accountStatus, userProfile.avatar, userProfile.coverImage, userProfile.contactNumber, userProfile.title, userProfile.about, userProfile.skills, userProfile.reviews, userProfile.city, userProfile.state, userProfile.zipcode, userProfile.categories, userProfile.subCategories);
+        return new UserProfile(userProfile.userId, userProfile.accountType, userProfile.firstName, userProfile.lastName, userProfile.gender, userProfile.accountStatus, userProfile.avatar, userProfile.coverImage, userProfile.contactNumber, userProfile.title, userProfile.about, userProfile.skills, userProfile.reviews, userProfile.city, userProfile.state, userProfile.zipcode, userProfile.categories, userProfile.subCategories, userProfile.id);
     }
 
 }

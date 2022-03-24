@@ -1,6 +1,6 @@
 import { Mongoose } from 'mongoose'
 import IReviewRepository from '../../domain/IReviewRepository'
-import Reviews from '../../domain/Review'
+import Reviews from '../../domain/Reviews'
 import { ReviewDocument, ReviewModel, ReviewSchema } from '../model/ReviewModel'
 
 export default class ReviewRepository implements IReviewRepository {
@@ -48,20 +48,38 @@ export default class ReviewRepository implements IReviewRepository {
         await result.remove();
         return reviewId;
     }
-    async getAllReviews(userId: string): Promise<Array<Reviews>> {
+    async getAllReviews(profileId: string): Promise<Array<Reviews>> {
         const model = this.client.model<ReviewDocument>(
             Reviews.modelName,
             ReviewSchema
         ) as ReviewModel;
-        var reviews = model.find({ profileId: userId });
+        var reviews = model.find({ profileId: profileId });
         return reviews;
     }
 
     async getSummaryOfReviews(userId: string): Promise<{ [propName: string]: any; }> {
         const model = this.client.model<ReviewDocument>(Reviews.modelName, ReviewSchema);
 
+        const oneRating = Number((await model.countDocuments({ rating: 1 })).toString());
+        const twoRating = Number((await model.countDocuments({ rating: 2 })).toString());
+        const threeRating = Number((await model.countDocuments({ rating: 3 })).toString());
+        const fourRating = Number((await model.countDocuments({ rating: 4 })).toString());
+        const fiveRating = Number((await model.countDocuments({ rating: 5 })).toString());
+
+        const totalCount = oneRating + twoRating + threeRating + fourRating + fiveRating
+
+        const averageRating = (1 * oneRating + 2 * twoRating + 3 * threeRating + 4 * fourRating + 5 * fiveRating) / totalCount
+
         return {
-            'asd': 'asdssad'
-        };
+            average: averageRating,
+            totalCount: totalCount,
+            counts: [
+                { rating: 5, count: fiveRating },
+                { rating: 4, count: fourRating },
+                { rating: 3, count: threeRating },
+                { rating: 2, count: twoRating },
+                { rating: 1, count: oneRating },
+            ],
+        }
     }
 }

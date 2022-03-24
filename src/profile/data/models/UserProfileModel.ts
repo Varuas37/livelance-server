@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose'
 import User from '../../../auth/domain/User'
-import Reviews from '../../domain/Review'
+import Reviews from '../../../reviews/domain/Reviews'
+
 
 export interface UserProfileDocument extends mongoose.Document {
     id: string,

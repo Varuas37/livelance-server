@@ -27,11 +27,12 @@ export default class ProfileController {
     public async getCurrentUser(req: express.Request, res: express.Response) {
         try {
             const userId = req.user
-            console.log('I am here 👀 : ' + userId);
+
             return this.repository.find(userId)
                 .then((profile) =>
                     res.status(200).json({
                         profile: profile,
+                        authorized: true,
                     })
                 )
                 .catch((err: Error) => res.status(404).json({ error: err }))

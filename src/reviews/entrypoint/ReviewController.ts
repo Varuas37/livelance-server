@@ -1,6 +1,6 @@
 import express from 'express';
 import IReviewRepository from '../domain/IReviewRepository';
-import Reviews from '../domain/Review';
+import Reviews from '../domain/Reviews';
 
 
 
@@ -61,12 +61,28 @@ export default class ReviewController {
     }
     public async get(req: express.Request, res: express.Response) {
         try {
-            const userID = req.user;
+            const { id } = req.params
 
-            return this.repository.getAllReviews(userID)
+            return this.repository.getAllReviews(id)
                 .then((reviews) =>
                     res.status(200).json({
                         review: reviews,
+                    })
+                )
+                .catch((err: Error) => res.status(404).json({ error: err }))
+        } catch (err) {
+            return res.status(400).json({ error: err })
+        }
+    }
+
+    public async getSummary(req: express.Request, res: express.Response) {
+        try {
+            const { id } = req.params
+
+            return this.repository.getSummaryOfReviews(id)
+                .then((summary) =>
+                    res.status(200).json({
+                        data: summary,
                     })
                 )
                 .catch((err: Error) => res.status(404).json({ error: err }))

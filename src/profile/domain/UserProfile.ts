@@ -1,5 +1,6 @@
 export default class UserProfile {
     constructor(
+
         public readonly userId: string,
         public readonly accountType: string,
         public readonly firstName?: string,
@@ -19,6 +20,7 @@ export default class UserProfile {
         public readonly zipcode?: string,
         public readonly categories?: string[],
         public readonly subCategories?: string[],
+        public readonly userProfileId?: string,
     ) { }
 
     static modelName = "profile";

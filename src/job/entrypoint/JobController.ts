@@ -31,8 +31,8 @@ export default class JobController {
             const userID = req.user;
             console.log('👀' + userID);
 
-            const { postedOn, jobTitle, jobDescription, category, subCategory, skills, duration, rate, rateDuration, location, zipcode } = req.body
-            const job = new Job(postedOn, jobTitle, jobDescription, category, subCategory, skills, userID, duration, rate, rateDuration, location, zipcode)
+            const { postedOn, jobTitle, jobDescription, category, subCategory, skills, duration, rate, rateDuration, city, state, zipcode } = req.body
+            const job = new Job(postedOn, jobTitle, jobDescription, category, subCategory, skills, userID, duration, rate, rateDuration, city, state, zipcode)
             return this.repository.createJob(job)
                 .then((job) =>
                     res.status(200).json({

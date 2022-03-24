@@ -1,4 +1,4 @@
-import Reviews from "./Review";
+
 import UserProfile from "./UserProfile";
 
 export default interface IProfileRepository {

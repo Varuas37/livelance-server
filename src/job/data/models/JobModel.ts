@@ -16,7 +16,8 @@ export interface JobDocument extends mongoose.Document {
     duration: number
     rate: number
     rateDuration: string
-    location: string
+    city: string
+    state: string
     zipcode: number
 }
 export interface JobModel extends mongoose.Model<JobDocument> { }
@@ -34,7 +35,8 @@ const JobSchema = new mongoose.Schema(
         duration: { type: String, required: true, },
         rate: { type: Number, required: true },
         rateDuration: { type: String, required: true, default: "hour", enum: enumRateDuration },
-        location: { type: String, required: true },
+        city: { type: String, required: true },
+        state: { type: String, required: true },
         zipcode: { type: Number, required: true },
     }
 )
