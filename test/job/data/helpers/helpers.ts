@@ -37,7 +37,6 @@ const jobs = [
             "html",
             "css"
         ],
-        postedBy: "623f312a3a310a16d0c28f1a",
         duration: "1 weeks",
         rate: "35",
         rateDuration: "hour",
@@ -58,7 +57,6 @@ const jobs = [
             "html",
             "css"
         ],
-        postedBy: "623f312a3a310a16d0c28f1a",
         duration: "1 weeks",
         rate: "35",
         rateDuration: "hour",
@@ -79,7 +77,6 @@ const jobs = [
             "html",
             "css"
         ],
-        postedBy: "623f312a3a310a16d0c28f1a",
         duration: "1 weeks",
         rate: "35",
         rateDuration: "hour",
@@ -100,7 +97,6 @@ const jobs = [
             "html",
             "css"
         ],
-        postedBy: "623f312a3a310a16d0c28f1a",
         duration: "1 weeks",
         rate: "35",
         rateDuration: "hour",
@@ -121,7 +117,6 @@ const jobs = [
             "html",
             "css"
         ],
-        postedBy: "623f312a3a310a16d0c28f1a",
         duration: "1 weeks",
         rate: "35",
         rateDuration: "hour",
