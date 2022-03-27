@@ -1,4 +1,6 @@
 import { Mongoose } from 'mongoose'
+import { UserProfileDocument, UserProfileSchema } from '../../../profile/data/models/UserProfileModel';
+
 import UserProfile from '../../../profile/domain/UserProfile';
 import IJobRepository from '../../domain/IJobRepository';
 import { Job } from '../../domain/Job';
@@ -9,13 +11,15 @@ import { JobDocument, JobModel, JobSchema } from '../models/JobModel';
 export default class JobRepository implements IJobRepository {
     constructor(private readonly client: Mongoose) { }
 
-
-
     async createJob(job: Job): Promise<Job> {
         const jobModel = this.client.model<JobDocument>(
             Job.modelName,
             JobSchema
         ) as JobModel
+
+        const profileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
+        const profile = await profileModel.findOne({ userId: job.postedBy })
+
         const newJob = new jobModel({
             postedOn: job.postedOn,
             jobTitle: job.jobTitle,
@@ -23,7 +27,7 @@ export default class JobRepository implements IJobRepository {
             category: job.category,
             subCategory: job.subCategory,
             skills: job.skills,
-            postedBy: job.postedBy,
+            postedBy: profile.id,
             duration: job.duration,
             rate: job.rate,
             rateDuration: job.rateDuration,
@@ -52,7 +56,7 @@ export default class JobRepository implements IJobRepository {
             Job.modelName,
             JobSchema
         ) as JobModel
-        const result = await jobModel.findById(id)
+        const result = await jobModel.findById(id).populate("postedBy", "firstName lastName avatar ")
         if (result === null) return Promise.reject('Job not found')
         return new Job(
             result.postedOn,
@@ -76,7 +80,7 @@ export default class JobRepository implements IJobRepository {
             Job.modelName,
             JobSchema
         ) as JobModel
-        var jobs = jobModel.find({ skills: { $exists: true, $in: skills } })
+        var jobs = jobModel.find({ skills: { $exists: true, $in: skills } }).populate("postedBy", "firstName lastName avatar ")
         return jobs;
     }
 

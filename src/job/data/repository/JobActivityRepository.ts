@@ -5,20 +5,27 @@ import { Job } from "../../domain/Job";
 import IJobActivityRepository from "../../domain/JobActivity/IJobActivity";
 import { JobActivity } from "../../domain/JobActivity/JobActivity";
 import { JobActivityDocument, JobActivitySchema } from "../models/JobActivityModel";
+import { JobDocument, JobModel, JobSchema } from "../models/JobModel";
 
 export default class JobActivityRepository implements IJobActivityRepository {
     constructor(private readonly client: Mongoose) { }
 
 
     async find(id: string, userId: string): Promise<JobActivity> {
+        // Registering job model so we can populate data. 
+        this.client.model<JobDocument>(Job.modelName, JobSchema) as JobModel;
         const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
-        const result = await model.findById(id)
+        const result = await model.findById(id).populate("jobId");
         if (result === null) return Promise.reject('Job Activity not found')
         return new JobActivity(result.jobId, userId, result.status);
     }
     async findAllByStatus(status: string, userId: string): Promise<JobActivity[]> {
+        // Registering job model so we can populate data. 
+        this.client.model<JobDocument>(Job.modelName, JobSchema) as JobModel;
         const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
-        const results = model.find({ status: status, userId: userId }).exec();
+        const results = model.find({ $and: [{ status: status }, { userId: userId }] }).populate("jobId");
+        // await results.populate("profileId");
+
         return results;
     }
 
@@ -109,8 +116,9 @@ export default class JobActivityRepository implements IJobActivityRepository {
     }
 
     async getCandidatesList(jobId: string): Promise<{ [propName: string]: any; }> {
+        this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
         const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
-        const candidateList = await model.find({ status: 'Applied', jobId: jobId }).exec();
+        const candidateList = await model.find({ status: 'Applied', jobId: jobId }).populate("profileId").exec();
         console.log(candidateList);
         return {
             candidates: candidateList

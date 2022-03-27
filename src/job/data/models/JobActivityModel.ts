@@ -20,7 +20,7 @@ const JobActivitySchema = new mongoose.Schema(
     {
         jobId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: Job.modelName,
+            ref: "job",
         },
         userId: {
             type: mongoose.Schema.Types.ObjectId,

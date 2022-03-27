@@ -9,7 +9,6 @@ export default class TokenValidator {
     ) { }
 
     public async validate(req: Request, res: Response, next: NextFunction) {
-
         const authHeader = req.headers.authorization
         if (!authHeader)
             return res.status(401).json({ error: 'Authorization header required' })

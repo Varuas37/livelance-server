@@ -1,4 +1,5 @@
 import { Mongoose } from 'mongoose'
+import { UserModel, UserSchema } from '../../../auth/data/models/UserModel';
 import IProfileRepository from "../../domain/IProfileRepository";
 import UserProfile from "../../domain/UserProfile";
 import { UserProfileDocument, UserProfileSchema } from '../models/UserProfileModel';
@@ -64,7 +65,7 @@ export default class ProfileRepository implements IProfileRepository {
         return new UserProfile(updatedProfile.userId, updatedProfile.accountType, updatedProfile.firstName, updatedProfile.lastName, updatedProfile.gender, updatedProfile.accountStatus, updatedProfile.avatar, updatedFields.coverImage, updatedProfile.contactNumber, updatedProfile.title, updatedProfile.about, updatedProfile.skills, updatedProfile.reviews, updatedProfile.city, updatedProfile.state, updatedProfile.zipcode, updatedProfile.categories, updatedProfile.subCategories);
     }
 
-
+    // THIS GETS CALLED WHEN DELETING A USER. WHICH IS A FEATURE THAT'S NOT BEEN IMPLEMENTED YET. 
     async delete(userId: string): Promise<string> {
         const userProfileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema)
         const userProfile = await userProfileModel.findOneAndDelete({ userId: userId });
@@ -72,28 +73,34 @@ export default class ProfileRepository implements IProfileRepository {
         return userProfile.id;
     }
 
+    // FINDS PROFILE BY USER ID
     async findByUserId(userId: string): Promise<UserProfile> {
+        this.client.model<UserModel>('User', UserSchema)
         const userProfileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema)
-        const userProfile = await userProfileModel.findOne({ userId: userId });
+        const userProfile = await (await userProfileModel.findOne({ userId: userId })).populate("userId", "email");
         if (userProfile === null) return Promise.reject('User profile does not exist')
         return new UserProfile(userProfile.userId, userProfile.accountType, userProfile.firstName, userProfile.lastName, userProfile.gender, userProfile.accountStatus, userProfile.avatar, userProfile.coverImage, userProfile.contactNumber, userProfile.title, userProfile.about, userProfile.skills, userProfile.reviews, userProfile.city, userProfile.state, userProfile.zipcode, userProfile.categories, userProfile.subCategories, userProfile.id);
     }
+    // GETS THE USER PROFILE.
     async getProfile(profileId: string): Promise<UserProfile> {
+        this.client.model<UserModel>('User', UserSchema)
         const userProfileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema)
         const userProfile = await userProfileModel.findById(profileId);
         if (userProfile === null) return Promise.reject('User profile does not exist')
         return new UserProfile(userProfile.userId, userProfile.accountType, userProfile.firstName, userProfile.lastName, userProfile.gender, userProfile.accountStatus, userProfile.avatar, userProfile.coverImage, userProfile.contactNumber, userProfile.title, userProfile.about, userProfile.skills, userProfile.reviews, userProfile.city, userProfile.state, userProfile.zipcode, userProfile.categories, userProfile.subCategories, userProfile.id);
     }
-
+    // GETS THE PROFILES BY CATEGORY. 
     async getProfilesByCategory(category: string[]): Promise<UserProfile[]> {
+        this.client.model<UserModel>('User', UserSchema)
         const userProfileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema)
-        const userProfile = await userProfileModel.find({ categories: { $exists: true, $in: category }, accountType: "freelancer" }).exec();
+        const userProfile = await userProfileModel.find({ categories: { $exists: true, $in: category }, accountType: "freelancer" }).populate("userId", "email").exec();
         return userProfile;
     }
-
+    // GETS NEARBY USERS.
     async getNearbyUsers(category: string[], zipcode: string): Promise<UserProfile[]> {
+        this.client.model<UserModel>('User', UserSchema)
         const userProfileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema)
-        const userProfile = await userProfileModel.find({ categories: { $exists: true, $in: category }, zipcode: zipcode }).exec();
+        const userProfile = await userProfileModel.find({ categories: { $exists: true, $in: category }, zipcode: zipcode }).populate("userId", "email").exec();
         return userProfile;
     }
 

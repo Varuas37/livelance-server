@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose'
+import UserProfile from '../../../profile/domain/UserProfile';
 
 const enumRateDuration = {
     values: ["hour", "week", "project", "month",],
@@ -30,7 +31,7 @@ const JobSchema = new mongoose.Schema(
         skills: { type: Array, required: true, },
         postedBy: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "user",
+            ref: UserProfile.modelName,
         },
         duration: { type: String, required: true, },
         rate: { type: Number, required: true },

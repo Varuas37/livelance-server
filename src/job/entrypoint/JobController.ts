@@ -38,7 +38,7 @@ export default class JobController {
                 )
                 .catch((err: Error) => res.status(404).json({ error: err }))
         } catch (err) {
-            console.log('error:' + err);
+            console.log('OOPS: 💅' + err);
             return res.status(400).json({ error: err })
         }
     }
@@ -54,6 +54,7 @@ export default class JobController {
                 )
                 .catch((err: Error) => res.status(404).json({ error: err }))
         } catch (err) {
+            console.log('OOPS: 💅' + err);
             return res.status(400).json({ error: err })
         }
     }
@@ -70,6 +71,7 @@ export default class JobController {
                 )
                 .catch((err: Error) => res.status(404).json({ error: err }))
         } catch (err) {
+            console.log('OOPS: 💅' + err);
             return res.status(400).json({ error: err })
         }
     }
@@ -86,6 +88,7 @@ export default class JobController {
                 )
                 .catch((err: Error) => res.status(404).json({ error: err }))
         } catch (err) {
+            console.log('OOPS: 💅' + err);
             return res.status(400).json({ error: err })
         }
     }
@@ -101,6 +104,7 @@ export default class JobController {
                 )
                 .catch((err: Error) => res.status(404).json({ error: err }))
         } catch (err) {
+            console.log('OOPS: 💅' + err);
             return res.status(400).json({ error: err })
         }
     }
@@ -114,6 +118,7 @@ export default class JobController {
                 )
                 .catch((err: Error) => res.status(404).json({ error: err }))
         } catch (err) {
+            console.log('OOPS: 💅' + err);
             return res.status(400).json({ error: err })
         }
     }
@@ -129,7 +134,7 @@ export default class JobController {
                         status: result,
                     })
                 )
-                .catch((err: Error) => res.status(404).json({ error: err }))
+                .catch((err: Error) => { throw err });
         } catch (err) {
             console.log('OOPS 💅' + err);
             return res.status(400).json({ error: err })
