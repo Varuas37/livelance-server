@@ -4,10 +4,11 @@ import {
     JobDocument,
     JobModel,
 } from '../../../../src/job/data/models/JobModel'
+import { Job } from '../../../../src/job/domain/Job'
 
 export const prepareDb = async (client: Mongoose) => {
     const model = client.model<JobDocument>(
-        'Restaurant',
+        Job.modelName,
         JobSchema
     ) as JobModel
     await model.ensureIndexes()
@@ -16,11 +17,7 @@ export const prepareDb = async (client: Mongoose) => {
 }
 
 export const cleanUpDb = async (client: Mongoose) => {
-    await client.connection.db.dropCollection('user')
-    await client.connection.db.dropCollection('profile')
     await client.connection.db.dropCollection('jobactivities')
-    await client.connection.db.dropCollection('message')
-    await client.connection.db.dropCollection('review')
     await client.connection.db.dropCollection('job')
 }
 
@@ -97,7 +94,7 @@ const jobs = [
             "html",
             "css"
         ],
-        duration: "1 weeks",
+        duration: "3 weeks",
         rate: "35",
         rateDuration: "hour",
         location: "3900 Old Omen RD",
@@ -117,7 +114,7 @@ const jobs = [
             "html",
             "css"
         ],
-        duration: "1 weeks",
+        duration: "2 months",
         rate: "35",
         rateDuration: "hour",
         location: "3900 Old Omen RD",
