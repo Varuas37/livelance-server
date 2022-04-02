@@ -225,10 +225,10 @@ export default class JobController {
 	public async findAllByStatus(req: express.Request, res: express.Response) {
 		try {
 			// uncomment below code in case of react frontend
-			const { status } = JSON.parse(req.headers.data.toString());
+			// const { status } = JSON.parse(req.headers.data.toString());
 
 			// uncomment below code in case of postman
-			// const { status } = req.body;
+			const { status } = req.body;
 
 			return this.jobActivityRepository
 				.findAllByStatus(status, req.user)
