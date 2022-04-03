@@ -191,10 +191,10 @@ export default class JobController {
 	}
 	public async offerOrDenyJob(req: express.Request, res: express.Response) {
 		try {
-			const { status } = req.body;
+			const { status, profileId } = req.body;
 			const { id } = req.params;
 			return this.jobActivityRepository
-				.offerOrDenyJob(id, status, req.user)
+				.offerOrDenyJob(id, status, profileId)
 				.then((result) =>
 					res.status(200).json({
 						status: result,

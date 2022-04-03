@@ -90,16 +90,12 @@ export default class JobActivityRepository implements IJobActivityRepository {
         await model.findOneAndUpdate(andFilter, update, upsert);
         return 'Accepted';
     }
-    async offerOrDenyJob(id: string, status: string, userId: string): Promise<String> {
+    async offerOrDenyJob(id: string, status: string, profileId: string): Promise<String> {
         const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
-        const modelProfile = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
-        const profile = await modelProfile.findOne({ userId: userId })
-        if (profile === null) return Promise.reject('User Profile Does not exist');
         const andFilter = {
             $and: [
                 { jobId: id, },
-                { userId: userId },
-                { profileId: profile.id }
+                { profileId: profileId }
             ]
         }
         const update = { status: status };

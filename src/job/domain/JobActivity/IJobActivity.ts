@@ -13,5 +13,5 @@ export default interface IJobActivityRepository {
 
     // For employers
     getCandidatesList(jobId: string): Promise<{ [propName: string]: any; }>;
-    offerOrDenyJob(id: string, status: string, userId: string): Promise<String>
+    offerOrDenyJob(id: string, status: string, profileId: string): Promise<String>
 }
