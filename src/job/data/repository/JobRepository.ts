@@ -89,7 +89,9 @@ export default class JobRepository implements IJobRepository {
             Job.modelName,
             JobSchema
         ) as JobModel
-        const jobs = jobModel.find({ postedBy: userId })
+        const profileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
+        const profile = await profileModel.findOne({ userId: userId })
+        const jobs = jobModel.find({ postedBy: profile.id })
         return jobs;
     }
 

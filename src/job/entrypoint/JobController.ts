@@ -126,10 +126,12 @@ export default class JobController {
 			const userId = req.user;
 			return this.repository
 				.getListedJobs(userId)
-				.then((listedJob) =>
+				.then((listedJob) => {
+					console.log(listedJob);
 					res.status(200).json({
 						jobs: listedJob,
 					})
+				}
 				)
 				.catch((err: Error) => res.status(404).json({ error: err }));
 		} catch (err) {
