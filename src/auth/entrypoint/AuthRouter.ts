@@ -16,6 +16,9 @@ import SignUpUseCase from '../usecases/SignUpUseCase'
 
 import { validate } from './../helpers/Validators'
 import AuthController from './AuthController'
+import getAllUsers from './userController'
+
+import AuthRepository from '../data/repository/AuthRepository'
 
 export default class AuthRouter {
     public static configure(
@@ -25,6 +28,7 @@ export default class AuthRouter {
         tokenStore: ITokenStore,
         passwordService: IPasswordService,
         tokenValidator: TokenValidator,
+       // repository_1: AuthRepository
 
     ): express.Router {
         const router = express.Router()
@@ -34,6 +38,7 @@ export default class AuthRouter {
             tokenService,
             tokenStore,
             passwordService,
+          //  repository_1
         )
         router.get(
             '/',
@@ -70,10 +75,12 @@ export default class AuthRouter {
                 controller.getUser(req, res)
         )
 
+
         return router
     }
 
     private static composeController(
+       // authRepository_1: AuthRepository,
         authRepository: IAuthRepository,
         userProfileRepository: IProfileRepository,
         tokenService: ITokenService,
@@ -88,7 +95,8 @@ export default class AuthRouter {
             signupUseCase,
             signoutUseCase,
             tokenService,
-            authRepository
+            authRepository,
+          //  authRepository_1
         )
         return controller
     }

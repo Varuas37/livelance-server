@@ -4,6 +4,8 @@ import ITokenService from '../services/ITokenService'
 import SignInUseCase from '../usecases/SignInUseCase'
 import SignOutUseCase from '../usecases/SignOutUseCase'
 import SignUpUseCase from '../usecases/SignUpUseCase'
+import { UserSchema } from '../data/models/UserModel'
+import AuthRepository from '../data/repository/AuthRepository'
 
 
 export default class AuthController {
@@ -12,19 +14,22 @@ export default class AuthController {
     private readonly signOutUseCase: SignOutUseCase
     private readonly tokenService: ITokenService
     private readonly repository: IAuthRepository
+    //private readonly repository_1: AuthRepository
 
     constructor(
         signInUseCase: SignInUseCase,
         signupUseCase: SignUpUseCase,
         signoutUseCase: SignOutUseCase,
         tokenService: ITokenService,
-        repository: IAuthRepository
+        repository: IAuthRepository,
+       // repository_1: AuthRepository
     ) {
         this.signInUseCase = signInUseCase
         this.tokenService = tokenService
         this.signUpUseCase = signupUseCase
         this.signOutUseCase = signoutUseCase
         this.repository = repository
+        //this.repository_1 = repository_1
     }
 
     public async status(req: express.Request, res: express.Response) {
@@ -81,4 +86,32 @@ export default class AuthController {
             return res.status(400).json({ error: err })
         }
     }
+
+   // public async getAllUsers(req: express.Request, res: express.Response, next: express.NextFunction) {
+   //     try {
+  //        const users = await this.repository_1.getUser(req.user);
+  //        return res.json(users);
+ //       } catch (ex) {
+ //         next(ex);
+//        }
+ //     };
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
