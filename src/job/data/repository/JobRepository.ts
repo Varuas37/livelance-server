@@ -50,6 +50,21 @@ export default class JobRepository implements IJobRepository {
         return jobId;
     }
 
+    async search(query: string): Promise<Job[]> {
+        const jobModel = this.client.model<JobDocument>(
+            Job.modelName,
+            JobSchema
+        ) as JobModel
+        const result = await jobModel.find(
+            { $text: { $search: query } },
+            { score: { $meta: "textScore" } },
+        )
+        // .sort({ score: { $meta: "textScore" } })
+
+        console.log(result);
+        return result;
+    }
+
 
     async findOne(id: string): Promise<Job> {
         const jobModel = this.client.model<JobDocument>(

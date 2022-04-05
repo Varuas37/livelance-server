@@ -45,6 +45,10 @@ export default class JobRouter {
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.findOne(req, res)
         )
+        router.post('/search',
+            (req, res, next) => tokenValidator.validate(req, res, next),
+            (req, res) => controller.search(req, res)
+        )
         router.delete('/:id',
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.delete(req, res)

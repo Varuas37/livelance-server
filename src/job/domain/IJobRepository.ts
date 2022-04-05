@@ -6,5 +6,7 @@ export default interface IJobRepository {
     findOne(id: string): Promise<Job>
     delete(jobId: string): Promise<String>
     getJobFeedForUser(skills: string[], category: string, subCategory: string): Promise<Array<Job>>
+    search(query: string): Promise<Array<Job>>
     getListedJobs(userId: string): Promise<Job[]>
+
 }

@@ -91,9 +91,8 @@ export default class ProfileRepository implements IProfileRepository {
     }
     // GETS THE PROFILES BY CATEGORY. 
     async getProfilesByCategory(category: string[]): Promise<UserProfile[]> {
-        this.client.model<UserModel>('User', UserSchema)
         const userProfileModel = this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema)
-        const userProfile = await userProfileModel.find({ categories: { $exists: true, $in: category }, accountType: "freelancer" }).populate("userId", "email").exec();
+        const userProfile = await userProfileModel.find({ categories: { $exists: true, $in: category }, accountType: "freelancer" })
         return userProfile;
     }
     // GETS NEARBY USERS.

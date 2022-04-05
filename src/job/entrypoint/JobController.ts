@@ -1,5 +1,4 @@
 import express from "express";
-import IProfileRepository from "../../profile/domain/IProfileRepository";
 import IJobRepository from "../domain/IJobRepository";
 import { Job } from "../domain/Job";
 import IJobActivityRepository from "../domain/JobActivity/IJobActivity";
@@ -75,6 +74,23 @@ export default class JobController {
 			const { id } = req.params;
 			return this.repository
 				.findOne(id)
+				.then((job) =>
+					res.status(200).json({
+						job: job,
+					})
+				)
+				.catch((err: Error) => res.status(404).json({ error: err }));
+		} catch (err) {
+			console.log("OOPS: 💅" + err);
+			return res.status(400).json({ error: err });
+		}
+	}
+
+	public async search(req: express.Request, res: express.Response) {
+		try {
+			const { query } = req.body;
+			return this.repository
+				.search(query)
 				.then((job) =>
 					res.status(200).json({
 						job: job,

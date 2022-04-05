@@ -21,7 +21,7 @@ export default class ProfileRouter {
             (req, res) => controller.getCurrentUser(req, res)
         )
 
-        router.get('/category',
+        router.post('/category',
             getProfilesByCategoryValidation(),
             validate,
             (req: express.Request, res: express.Response, next) => tokenValidator.validate(req, res, next),
