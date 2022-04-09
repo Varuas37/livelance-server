@@ -19,7 +19,7 @@ export default class JobRouter {
         let controller = JobRouter.composeController(
             jobRepository, userProfileRepository, jobActivityRepository
         )
-        router.get('/:id/candidates',
+        router.post('/:id/candidates',
             (req, res, next) => tokenValidator.validate(req, res, next),
             (req, res) => controller.getListOfCandidates(req, res)
         )
