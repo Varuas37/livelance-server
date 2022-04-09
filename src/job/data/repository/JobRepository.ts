@@ -55,11 +55,12 @@ export default class JobRepository implements IJobRepository {
             Job.modelName,
             JobSchema
         ) as JobModel
+        // jobModel.createIndexes({ jobDescription: "text", jobTitle: "text" })
         const result = await jobModel.find(
             { $text: { $search: query } },
             { score: { $meta: "textScore" } },
         )
-        // .sort({ score: { $meta: "textScore" } })
+            .sort({ score: { $meta: "textScore" } })
 
         console.log(result);
         return result;

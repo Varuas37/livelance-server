@@ -41,5 +41,6 @@ const JobSchema = new mongoose.Schema(
         zipcode: { type: Number, required: true },
     }
 )
+JobSchema.index({ jobDescription: "text", jobTitle: "text", category: "text", subCategory: "text", skills: "text" })
 export { JobSchema }
 
