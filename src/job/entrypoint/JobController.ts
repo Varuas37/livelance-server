@@ -162,7 +162,7 @@ export default class JobController {
 	) {
 		try {
 			const { id } = req.params;
-			const { status } = req.params;
+			const { status } = req.body;
 			return this.jobActivityRepository
 				.getCandidatesList(id, status)
 				.then((candidateList) => res.status(200).json(candidateList))

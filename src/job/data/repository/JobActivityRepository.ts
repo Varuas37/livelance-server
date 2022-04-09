@@ -114,6 +114,7 @@ export default class JobActivityRepository implements IJobActivityRepository {
     async getCandidatesList(jobId: string, status: string): Promise<{ [propName: string]: any; }> {
         this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
         const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
+        console.log("status:" + status);
         const candidateList = await model.find({ status: status, jobId: jobId }).populate("profileId").exec();
         console.log(candidateList);
         return {
