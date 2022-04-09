@@ -162,8 +162,9 @@ export default class JobController {
 	) {
 		try {
 			const { id } = req.params;
+			const { status } = req.params;
 			return this.jobActivityRepository
-				.getCandidatesList(id)
+				.getCandidatesList(id, status)
 				.then((candidateList) => res.status(200).json(candidateList))
 				.catch((err: Error) => res.status(404).json({ error: err }));
 		} catch (err) {

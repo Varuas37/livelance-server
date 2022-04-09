@@ -111,14 +111,15 @@ export default class JobActivityRepository implements IJobActivityRepository {
         throw new Error("Method not implemented.");
     }
 
-    async getCandidatesList(jobId: string): Promise<{ [propName: string]: any; }> {
+    async getCandidatesList(jobId: string, status: string): Promise<{ [propName: string]: any; }> {
         this.client.model<UserProfileDocument>(UserProfile.modelName, UserProfileSchema);
         const model = this.client.model<JobActivityDocument>(JobActivity.modelName, JobActivitySchema);
-        const candidateList = await model.find({ status: 'Applied', jobId: jobId }).populate("profileId").exec();
+        const candidateList = await model.find({ status: status, jobId: jobId }).populate("profileId").exec();
         console.log(candidateList);
         return {
             candidates: candidateList
         };
     }
+
 }
 
